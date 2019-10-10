@@ -6,7 +6,7 @@
     </header>
     <content>
       <div class="main">
-        <a href="https://www.zhufengic.com/"
+        <a href="https://yi.zhufengic.com/ipartner/index"
            class="Everest">珠峰保险</a>
         <a href="http://www.guorenpcic.com/"
            class="Theterm">国任保险</a>
