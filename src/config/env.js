@@ -7,17 +7,17 @@
  */
 import Vue from 'vue'
 let baseUrl = '';
-let FileUrl=''
+let FileUrl = ''
 if (process.env.NODE_ENV !== 'production') { //测试环境
-    baseUrl='https://ceshi.ctbls.com/shop/'
-    Vue.prototype.uploadUrl='https://ceshi.ctbls.com/shop/Main/uploadImg'
-    Vue.prototype.baseUrl='https://ceshi.ctbls.com/shop/'
-    FileUrl='https://doc.ctbls.com/admin/docs/doc'
-}else if(process.env.NODE_ENV !== 'development'){ //线上环境
-    baseUrl='https://cc.ctbls.com/shop/'
-    Vue.prototype.uploadUrl='https://cc.ctbls.com/shop/Main/uploadImg'
-    Vue.prototype.baseUrl='https://cc.ctbls.com/shop/'
-    FileUrl='https://doc.ctbls.com/admin/docs/doc?d_id'
+    baseUrl = 'https://ceshi.ctbls.com/shop/'
+    Vue.prototype.uploadUrl = 'https://ceshi.ctbls.com/shop/Main/uploadImg'
+    Vue.prototype.baseUrl = 'https://ceshi.ctbls.com/shop/'
+    FileUrl = 'https://doc.ctbls.com/admin/docs/doc'
+} else if (process.env.NODE_ENV !== 'development') { //线上环境
+    baseUrl = 'https://cc.ctbls.com/shop/'
+    Vue.prototype.uploadUrl = 'https://cc.ctbls.com/shop/Main/uploadImg'
+    Vue.prototype.baseUrl = 'https://cc.ctbls.com/shop/'
+    FileUrl = 'https://doc.ctbls.com/admin/docs/doc?d_id'
 }
 export {
     baseUrl,

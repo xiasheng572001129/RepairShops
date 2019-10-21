@@ -37,6 +37,16 @@
           </div>
 
         </router-link>
+        <router-link tag='li'
+                     to='/afterSales'
+                     class='aftersales'>
+
+          <div>
+            <img src="../images/aftersales.png">
+            <span>主机厂售后</span>
+          </div>
+
+        </router-link>
       </ul>
     </div>
   </div>
@@ -108,7 +118,7 @@ export default {
       display: flex;
       flex-wrap: wrap;
       //   justify-content: center;
-      justify-content: space-between;
+
       align-content: center;
       li {
         margin: 10px;
@@ -193,6 +203,24 @@ export default {
         }
       }
       .SpeedSingle > div > img {
+        width: 100px;
+        height: 100px;
+        margin: 15px 0;
+      }
+      .aftersales {
+        background-color: rgb(240, 240, 240);
+        line-height: 0;
+        border-radius: 10px;
+        text-align: center;
+      }
+      .aftersales > div {
+        text-align: center;
+        color: black;
+        & > span {
+          display: block;
+        }
+      }
+      .aftersales > div > img {
         width: 100px;
         height: 100px;
         margin: 15px 0;

@@ -8,7 +8,7 @@
       <div class="main">
         <a href="https://yi.zhufengic.com/ipartner/index"
            class="Everest">珠峰保险</a>
-        <a href="http://www.guorenpcic.com/"
+        <a href="https://rbt.guorenpcic.com/ecar/#/login"
            class="Theterm">国任保险</a>
         <a href="http://www.cpic.com.cn/"
            class="Ocean">太平洋保险</a>
@@ -26,6 +26,7 @@
 import Head from "@/views/common/header";
 export default {
   components: { Head }
+
 }
 </script>
 <style scoped  lang="scss">
