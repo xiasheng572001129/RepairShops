@@ -12,12 +12,14 @@
            class="Theterm">国任保险</a>
         <a href="http://www.cpic.com.cn/"
            class="Ocean">太平洋保险</a>
-        <a href="http://www.epicc.com.cn/"
+        <a href="https://icar.epicc.com.cn:8443/icar/saaUserPower/login.do"
            class="danger">人保保险</a>
         <a href="http://ygibao.com"
            class="Sunshine">阳光保险</a>
         <a href="http://www.bpic.com.cn/"
            class="Bohai">渤海保险</a>
+        <a href="http://t.tk.cn/tplatform_clientManage/cxLogin.do"
+           class="taikang">泰康代理</a>
       </div>
     </content>
   </div>
@@ -97,6 +99,13 @@ export default {
     background-repeat: no-repeat;
     background-position-y: 30px;
     background-position-x: -10px;
+  }
+  .taikang {
+    background-image: url("./images/taikang.jpg");
+    background-size: 90% 55%;
+    background-repeat: no-repeat;
+    background-position-y: 30px;
+    background-position-x: 10px;
   }
 }
 </style>

@@ -1,64 +1,70 @@
 <template>
+
   <div class='sidebar'>
+
     <div class='logo'>
       <img src="../../../assets/images/logo.png">
     </div>
     <div class='sidemenu'>
-      <ul>
-        <router-link tag='li'
-                     to='/maintainMode'>
-          <img src="../images/maintain.png"
-               alt="">
-          <span>邦保养</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/gift'>
-          <img src="../images/gift.png"
-               alt="">
-          <span>礼品兑换</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/materielM'>
-          <img src="../images/materiel.png"
-               alt="">
-          <span>物料管理</span>
-        </router-link>
-        <!-- <router-link tag='li' to='/maintainMode/giftM'>
+      <el-scrollbar>
+
+        <ul>
+          <router-link tag='li'
+                       to='/maintainMode'>
+            <img src="../images/maintain.png"
+                 alt="">
+            <span>邦保养</span>
+          </router-link>
+          <!-- <router-link tag='li'
+                       to='/maintainMode/gift'>
+            <img src="../images/gift.png"
+                 alt="">
+            <span>礼品兑换</span>
+          </router-link> -->
+          <router-link tag='li'
+                       to='/maintainMode/materielM'>
+            <img src="../images/materiel.png"
+                 alt="">
+            <span>物料管理</span>
+          </router-link>
+          <!-- <router-link tag='li' to='/maintainMode/giftM'>
                     <img src="../images/gift.png" alt="">
                     <span>礼品管理</span>
                 </router-link> -->
-        <router-link tag='li'
-                     to='/maintainMode/member'>
-          <img src="../images/member.png"
-               alt="">
-          <span>车主管理</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/technicianM'>
-          <img src="../images/tech.png"
-               alt="">
-          <span>技师管理</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/activity'>
-          <img src="../images/gift.png"
-               alt="">
-          <span>活动管理</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/upkeepRecord'>
-          <img src="../images/record.png"
-               alt="">
-          <span>保养记录</span>
-        </router-link>
-        <router-link tag='li'
-                     to='/maintainMode/complaint'>
-          <img src="../images/complaint.png"
-               alt="">
-          <span>投诉管理</span>
-        </router-link>
-      </ul>
+          <router-link tag='li'
+                       to='/maintainMode/member'>
+            <img src="../images/member.png"
+                 alt="">
+            <span>车主管理</span>
+          </router-link>
+          <router-link tag='li'
+                       to='/maintainMode/technicianM'>
+            <img src="../images/tech.png"
+                 alt="">
+            <span>技师管理</span>
+          </router-link>
+          <router-link tag='li'
+                       to='/maintainMode/activity'>
+            <img src="../images/gift.png"
+                 alt="">
+            <span>活动管理</span>
+          </router-link>
+          <router-link tag='li'
+                       to='/maintainMode/upkeepRecord'>
+            <img src="../images/record.png"
+                 alt="">
+            <span>保养记录</span>
+          </router-link>
+          <router-link tag='li'
+                       to='/maintainMode/complaint'>
+            <img src="../images/complaint.png"
+                 alt="">
+            <span>投诉管理</span>
+          </router-link>
+        </ul>
+      </el-scrollbar>
     </div>
+
   </div>
 </template>
 <script>
@@ -72,6 +78,8 @@ export default {
   width: 160px;
   height: 100%;
   position: fixed;
+  overflow: hidden;
+
   .logo {
     width: 160px;
     height: 55px;
@@ -84,6 +92,17 @@ export default {
     background-color: #3498e9;
     height: calc(100% - 55px);
     border-right: 1px solid #1c77c1;
+    overflow-x: hidden !important;
+    .el-scrollbar {
+      height: 100%;
+      /deep/ .el-scrollbar__wrap {
+        overflow-x: hidden !important;
+      }
+      /deep/ .el-scrollbar__view {
+        height: 100% !important;
+        overflow-x: hidden;
+      }
+    }
     li {
       cursor: pointer;
       height: 100px;

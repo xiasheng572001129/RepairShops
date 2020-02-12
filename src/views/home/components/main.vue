@@ -7,7 +7,7 @@
                      class='maintain'>邦保养管理</router-link>
         <router-link tag='li'
                      :to='{path:"/generalize",query: {ifsigning: 1}}'
-                     class='Storefront'>店面推广</router-link>
+                     class='Storefront'>促销推广</router-link>
         <router-link tag='li'
                      to='/obd'
                      class='Maintenance'>维保商机</router-link>
@@ -27,26 +27,31 @@
         <router-link tag='li'
                      to='/dataAnalysisMode'
                      class='data'>数据分析</router-link>
+        <!-- <router-link tag='li'
+                     to='/aftersales'
+                     class='aftersales'
+                     @click="auth">DMS系统</router-link> -->
+        <li class='aftersales'
+            @click="auth">DMS系统</li>
         <router-link tag='li'
                      to='/SpeedSingle'
                      class='SpeedSingle'>
 
           <div>
-            <img src="../images/speed.jpg">
+            <img src="../images/speed.png">
             <span>极速出单</span>
           </div>
 
         </router-link>
-        <router-link tag='li'
-                     to='/afterSales'
-                     class='aftersales'>
+        <div @click="Permissions"
+             class='timg'>
 
           <div>
-            <img src="../images/aftersales.png">
-            <span>主机厂售后</span>
+            <img src="../images/timg.png">
+            <span>精准养护</span>
           </div>
 
-        </router-link>
+        </div>
       </ul>
     </div>
   </div>
@@ -69,8 +74,8 @@ export default {
     }
   },
   methods: {
-    msgtip () {
-      this.$confirm("敬请期待！", "提示", {
+    auth () {
+      this.$confirm("您暂无权限，请联系区域经理申请！", "提示", {
         confirmButtonText: "确定",
         showCancelButton: false,
         type: "warning",
@@ -94,6 +99,18 @@ export default {
       }
     },
 
+    //暂未权限
+    Permissions () {
+      console.log(123)
+      this.$confirm('暂未权限', '提示', {
+        confirmButtonText: '确定',
+
+        type: 'warning',
+        center: true
+      }).then(() => {
+      }).catch(() => { });
+    }
+
   },
   mounted () {
     this.init();
@@ -114,11 +131,9 @@ export default {
     ul {
       width: 1100px;
       width: 850px;
-
       display: flex;
       flex-wrap: wrap;
       //   justify-content: center;
-
       align-content: center;
       li {
         margin: 10px;
@@ -190,14 +205,15 @@ export default {
         border-radius: 10px;
       }
       .SpeedSingle {
-        background-color: rgb(240, 240, 240);
+        background-color: rgb(200, 200, 200);
         line-height: 0;
         border-radius: 10px;
         text-align: center;
+        // font-weight: 600;
       }
       .SpeedSingle > div {
         text-align: center;
-        color: black;
+        // color: black;
         & > span {
           display: block;
         }
@@ -205,25 +221,38 @@ export default {
       .SpeedSingle > div > img {
         width: 100px;
         height: 100px;
-        margin: 15px 0;
+        margin: 20px 0 15px 0;
       }
-      .aftersales {
-        background-color: rgb(240, 240, 240);
+      .timg {
+        margin: 10px;
+        width: 250px;
+        height: 160px;
+        text-align: center;
+        line-height: 270px;
+        background-color: #ffcc99;
         line-height: 0;
         border-radius: 10px;
         text-align: center;
+        color: white;
+        cursor: pointer;
+        // font-weight: 600;
       }
-      .aftersales > div {
+      .timg > div {
         text-align: center;
-        color: black;
+        // color: black;
         & > span {
           display: block;
         }
       }
-      .aftersales > div > img {
-        width: 100px;
-        height: 100px;
-        margin: 15px 0;
+      .timg > div > img {
+        width: 75px;
+        height: 75px;
+        margin: 35px 0 25px 0;
+      }
+
+      .aftersales {
+        background-image: url("../images/DMS.png");
+        background-size: 100% 100%;
       }
       .vip {
         background-image: url("../images/Member.png");

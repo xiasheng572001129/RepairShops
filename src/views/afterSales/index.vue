@@ -6,12 +6,13 @@
     </header>
     <content>
       <div class="main">
+        <a href="http://222.217.19.250:15279/DMS/system/loginAction!toLogin2.action"
+           class="dongfeng">东风</a>
+        <a href="http://csc.changansuzuki.com/csc/default.jsp?sid=0.6963891495522545"
+           class="Changan">长安</a>
         <a href="javascript:;"
-           class="dongfeng"
-           @click="unopen">东风</a>
-        <a href="javascript:;"
-           class="Changan" @click="unopen">长安</a>
-
+           class="eGO"
+           @click="unopen">e.GO新能源</a>
       </div>
     </content>
   </div>
@@ -22,7 +23,7 @@ export default {
   components: { Head },
   methods: {
     unopen () {
-      this.$message({ message: '该功能暂未开放', type: 'warning' })
+      this.$message({ message: '你暂无权限,该功能暂未开放', type: 'warning' })
     }
   }
 }
@@ -55,15 +56,23 @@ export default {
   }
   .dongfeng {
     background-image: url("./image/dongfeng.jpg");
-    background-size: 80% 80%;
+    background-size: 60% 60%;
     background-position-x: 50%;
+    background-position-y: 25%;
     background-repeat: no-repeat;
   }
   .Changan {
     background-image: url("./image/Changan.jpg");
+    background-size: 40% 50%;
+    background-position-x: 50%;
+    background-position-y: 30%;
+    background-repeat: no-repeat;
+  }
+  .eGO {
+    background-image: url("./image/ego_mobile_ag.png");
     background-size: 50% 70%;
     background-position-x: 50%;
-    background-position-y: 10%;
+    background-position-y: 15%;
     background-repeat: no-repeat;
   }
 }

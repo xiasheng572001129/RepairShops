@@ -25,6 +25,7 @@ const router = new Router({
         name: 'Selective_registerType',
         component: () => import( /* webpackChunkName: "Selective_registerType" */ '@/views/Selective_registerType/Selective_registerType')
     },
+
     { //注册
         path: '/register',
         component: () => import( /* webpackChunkName: "register" */ '@/views/userLogin/register/register'),
@@ -34,6 +35,7 @@ const router = new Router({
         children: [{
             path: '/register',
             redirect: 'login_information'
+
         },
         {
             path: 'login_information',
@@ -465,6 +467,7 @@ const router = new Router({
             component: () => import( /* webpackChunkName: "materiel" */ '@/views/dataAnalysisMode/pages/materielReduce'),
             meta: {
                 name: '物料消耗'
+
             }
         }
         ]
