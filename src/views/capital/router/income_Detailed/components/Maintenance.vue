@@ -30,6 +30,10 @@
                      name="b">
           <component is='service_car'></component>
         </el-tab-pane>
+        <el-tab-pane label="罚款记录"
+                     name="c">
+          <component is='fine_record'></component>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -42,6 +46,7 @@ import activity_reward from './MaintenanceIncome_details/activity_reward'
 import subsidy from './MaintenanceIncome_details/subsidy'
 import recommend from './MaintenanceIncome_details/recommend'
 import service_car from './MaintenanceIncome_details/service_car'
+import fine_record from './MaintenanceIncome_details/fine'
 export default {
   data () {
     return {
@@ -60,7 +65,8 @@ export default {
     activity_reward,
     subsidy,
     recommend,
-    service_car
+    service_car,
+    fine_record
   }
 }
 </script>

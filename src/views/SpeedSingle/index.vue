@@ -87,11 +87,11 @@ export default {
     background-position-x: 20px;
   }
   .Sunshine {
-    background-image: url("./images/Sunshine.png");
-    background-size: 80% 20%;
+    background-image: url("./images/Sunshine.jpg");
+    background-size: 100% 50%;
     background-repeat: no-repeat;
-    background-position-y: 50px;
-    background-position-x: 30px;
+    background-position-y: 25px;
+    background-position-x: 5px;
   }
   .Bohai {
     background-image: url("./images/Bohai.jpg");

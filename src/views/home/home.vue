@@ -24,8 +24,8 @@
               <img src="./images/Telephone.png">
             </span>
           </li>
-          <li v-show="phoneList.agent==1">{{phoneList.agent_phone}}</li>
-          <li v-show="phoneList.sm==1">服务经理 ：{{phoneList.sm_phone}}</li>
+          <li>{{phoneList.agent_phone && phoneList.agent_phone.agent}}</li>
+          <li>{{phoneList.agent_phone && phoneList.agent_phone.company}}</li>
         </ul>
       </div>
     </footer>
@@ -452,6 +452,9 @@ export default {
             border-right: 1px solid white;
             padding-right: 15px;
           }
+        }
+        & > li:nth-child(2) {
+          padding: 0 50px 0 0 !important;
         }
       }
     }

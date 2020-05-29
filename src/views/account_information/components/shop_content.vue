@@ -64,7 +64,7 @@
                 </div>
                 <div class='Put_forward'>
                     <p class='ft-18 col-32373C ft-weight6'>提现账户
-                        <span class="tips">提示：银行提现账户仅限修改一次，请谨慎操作，后续修改请联系总后台 400-611-8689</span></p>
+                        <!-- <span class="tips">提示：银行提现账户仅限修改一次，请谨慎操作，后续修改请联系总后台 400-611-8689</span></p> -->
                     <div>
                         <table>
                             <tr>

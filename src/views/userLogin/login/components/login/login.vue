@@ -11,17 +11,28 @@
             <p class="tetx">登录</p>
             <div class="form">
               <div>
-                <input type="text" name="form.usname" placeholder="输入用户名" v-model="form.usname">
+                <input type="text"
+                       name="form.usname"
+                       placeholder="输入用户名"
+                       v-model="form.usname">
               </div>
               <div>
-                <input type="password" name="form.passwd" placeholder="输入密码" v-model="form.passwd">
+                <input type="password"
+                       name="form.passwd"
+                       placeholder="输入密码"
+                       v-model="form.passwd">
               </div>
               <div class="Code">
-                <input type="text" placeholder="输入验证码" v-model="form.code" name="form.code">
+                <input type="text"
+                       placeholder="输入验证码"
+                       v-model="form.code"
+                       name="form.code">
                 <component is="Verification_Code"></component>
               </div>
               <div class="border_clear">
-                <el-button type="primary" :disabled="nextVisible" @click="login">登录</el-button>
+                <el-button type="primary"
+                           :disabled="nextVisible"
+                           @click="login">登录</el-button>
               </div>
               <div class="border_clear jump">
                 <!--<a href="javascript:;" @click="register">注册</a>-->
@@ -33,7 +44,8 @@
       </div>
       <div class="remind">
         推荐使用最新版谷歌浏览器，点击
-        <a href="javascript:;" @click="download">下载</a>
+        <a href="javascript:;"
+           @click="download">下载</a>
       </div>
     </div>
     <Agreement></Agreement>
@@ -46,7 +58,7 @@ import { mapState } from "vuex";
 import { login, protocol } from "@/server/serverData";
 export default {
   name: "login",
-  data() {
+  data () {
     return {
       form: {
         usname: "",
@@ -59,7 +71,7 @@ export default {
   },
   computed: {
     /** 如果账户密码和验证码没有输入则不能登录**/
-    nextVisible() {
+    nextVisible () {
       let state = true,
         usname = this.form.usname,
         passwd = this.form.passwd,
@@ -87,16 +99,16 @@ export default {
   },
   methods: {
     /** 生成随机数 **/
-    randomNum(min, max) {
+    randomNum (min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
-    async register() {
+    async register () {
       //注册
       // this.$store.commit('OPEN_AGREEMENT',true)
       this.$router.push("/Selective_registerType");
     },
     /** 登录 **/
-    async login() {
+    async login () {
       let verify = `${this.randomNum(1, 10)}${this.randomNum(
         1,
         10
@@ -112,26 +124,26 @@ export default {
         this.$store.commit("shop_status", res.data.code);
         switch (res.data.code) {
           /** 0 表示当前用户尚未支付，请求支付系统使用费接口，切换页面展示二维码进行支付 **/
-          case 0:
-          console.log(0)
-            this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
-              dangerouslyUseHTMLString: true,
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-            })
-              .then(() => {
-                window.sessionStorage.setItem("shop_type", 1);
-                that.$router.push({
-                  path: "/register/Repair_information",
-                  query: { sid: res.data.data.sid }
-                });
-              })
-              .catch(() => {});
-            break;
+          //   case 0:
+          //   console.log(0)
+          //     this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
+          //       dangerouslyUseHTMLString: true,
+          //       confirmButtonText: "确定",
+          //       cancelButtonText: "取消",
+          //       type: "warning"
+          //     })
+          //       .then(() => {
+          //         window.sessionStorage.setItem("shop_type", 1);
+          //         that.$router.push({
+          //           path: "/register/Repair_information",
+          //           query: { sid: res.data.data.sid }
+          //         });
+          //       })
+          //       .catch(() => {});
+          //     break;
           /** 1-未完善信息，跳转到完善信息页面，让用户完善信息 **/
           case 1:
-          console.log(1)
+            console.log(1)
             window.sessionStorage.setItem("token", res.data.data.token);
             window.sessionStorage.setItem("username", res.data.data.shop_name);
             window.sessionStorage.setItem("shop_type", res.data.data.shop_type);
@@ -146,11 +158,11 @@ export default {
                   query: { sid: res.data.data.sid }
                 });
               })
-              .catch(() => {});
+              .catch(() => { });
             break;
           /** 2-正常登录，跳转到首页 **/
           case 2:
-          // console.log(2)
+            // console.log(2)
             if (res.data.data.days.length !== 0) {
               window.sessionStorage.setItem("days", res.data.data.days);
             }
@@ -172,7 +184,7 @@ export default {
                 showCancelButton: false,
                 confirmButtonText: "确定",
                 beforeClose: (act, instance, done) => {
-                // console.log(res.data.data.action.msg)
+                  // console.log(res.data.data.action.msg)
                   let action = JSON.stringify(res.data.data.action.msg);
                   // console.log(action)
                   window.sessionStorage.setItem("action", action);
@@ -201,7 +213,7 @@ export default {
               message: res.data.msg,
               type: "success",
               duration: 1000,
-              onClose() {
+              onClose () {
                 let action = JSON.stringify(res.data.data.action.msg);
                 window.sessionStorage.setItem("action", action);
                 window.sessionStorage.setItem("token", res.data.data.token);
@@ -215,7 +227,7 @@ export default {
                 );
                 that.$router.push({
                   name: "home",
-                  params: { shop_type: res.data.data.shop_type,if_action:res.data.data.if_action,sid:res.data.data.sid }
+                  params: { shop_type: res.data.data.shop_type, if_action: res.data.data.if_action, sid: res.data.data.sid }
                 });
                 that.form = {
                   usname: "",
@@ -227,7 +239,7 @@ export default {
             break;
           /** 3-已取消合作且做完了剩余的邦保养服务，跳转到提现页面 **/
           case 3:
-          console.log(3)
+            console.log(3)
             window.sessionStorage.setItem("token", res.data.data.token);
             window.sessionStorage.setItem("username", res.data.data.shop_name);
             that.$message({
@@ -241,7 +253,7 @@ export default {
             break;
           /** 4-因为三次未完成任务，店铺关停，请联系运营商（此状态弹窗提示） **/
           case 4:
-          console.log(4)
+            console.log(4)
             this.$message({
               message: res.data.msg,
               type: "warning",
@@ -250,7 +262,7 @@ export default {
             break;
           /** 5-提交的表单内容有错误或者账号密码错误，直接弹出弹窗提示 **/
           case 5:
-          console.log(5)
+            console.log(5)
             this.$message({
               message: res.data.msg,
               type: "error",
@@ -260,7 +272,7 @@ export default {
           /** 7.为车管家合作店铺，弹窗提示信息后，跳转到二维码页面 **/
 
           case 7:
-          console.log(7)
+            console.log(7)
             window.sessionStorage.setItem("shop_type", 2);
             this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
               dangerouslyUseHTMLString: true,
@@ -274,12 +286,12 @@ export default {
                   query: { sid: res.data.data.sid }
                 });
               })
-              .catch(() => {});
+              .catch(() => { });
             break;
           /** 8.为车管家合作店铺，弹窗提示信息后，跳转到完善信息页面 */
 
           case 8:
-          console.log(8)
+            console.log(8)
             window.sessionStorage.setItem("shop_type", 2);
             window.sessionStorage.setItem("token", res.data.data.token);
             window.sessionStorage.setItem("username", res.data.data.shop_name);
@@ -294,13 +306,13 @@ export default {
                   query: { sid: res.data.data.sid }
                 });
               })
-              .catch(() => {});
+              .catch(() => { });
             break;
         }
       }
     },
     /** 跳转下载最新版本谷歌 **/
-    download() {
+    download () {
       window.open("http://baoku.360.cn/soft/search?kw=%E8%B0%B7%E6%AD%8C");
     }
   }

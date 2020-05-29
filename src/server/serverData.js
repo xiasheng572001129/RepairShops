@@ -14,29 +14,29 @@ import {
 /**
  * 维修厂礼品确认收货
  */
-export const confirmGifts = (data) =>post('Privilege/confirmGifts', data)
+export const confirmGifts = (data) => post('Privilege/confirmGifts', data)
 /**
  * 维修厂礼品已完成列表
  */
-export const deliverGifts = (data) =>post('Privilege/deliverGifts', data)
+export const deliverGifts = (data) => post('Privilege/deliverGifts', data)
 /**
  *  维修厂礼品未发货列表
  */
-export const createGifts = (data) =>post('Privilege/createGifts', data)
+export const createGifts = (data) => post('Privilege/createGifts', data)
 /**
  * 维修厂礼品已发货列表
  */
-export const receiptGifts = (data) =>post('Privilege/receiptGifts', data)
+export const receiptGifts = (data) => post('Privilege/receiptGifts', data)
 
 /**
  * 判断首页升级邦保养智能连锁店是否支付成功
  */
-export const payStatus = (obj) => GET('UpgradeQr/getStatus',false,obj)
+export const payStatus = (obj) => GET('UpgradeQr/getStatus', false, obj)
 
 /**
  * 首页升级邦保养只能连锁店
  */
-export const UpgradeQrpay = (obj) => GET('UpgradeQr/pay',false,obj)
+export const UpgradeQrpay = (obj) => GET('UpgradeQr/pay', false, obj)
 /**
  * 老兵活动
  */
@@ -114,7 +114,7 @@ export const getBankCode = () => GET('Reg/getBankCode')
  * 车管家合作店铺二维码页面信息
  */
 
-export const createcode = (sid) => GET('Qr/pay', '',sid)
+export const createcode = (sid) => GET('Qr/pay', '', sid)
 /**
  * 获取车管家合作店铺的认证状态
  */
@@ -126,7 +126,7 @@ export const getAuthStatus = (sid) => GET('Qr/getStatus', '', sid)
 export const GET_QRCode = (sid, shop_type, type) => GET('Qr/pay', '', {
     sid: sid,
     shop_type: shop_type,
-    type:type
+    type: type
 })
 
 
@@ -300,6 +300,12 @@ export const getActivityReward = (data) => post('Account/getActivityReward ', da
  * 服务车奖励
  */
 export const getServeIncome = (data) => post('Account/serveIncome ', data)
+
+/**
+ * 罚款记录
+ */
+export const getFine_record = (data) => post('Money/delayedList ', data)
+
 /**
  *  滤芯补贴
  */
@@ -427,6 +433,30 @@ export const sendCode = (phone, card) => post('bang/vcode', {
     phone: phone,
     card_number: card
 })
+
+
+//邦保养-邦保养页面 上传保单 保险公司列表
+export const GetCompany = (params) => post('Bang/policyList', params)
+
+//邦保养-邦保养页面 上传保单 投保类型列表
+export const policyType = (params) => post('Bang/policyType', params)
+
+//邦保养-邦保养页面 上传保单 上传
+export const updatePloicy = (params) => post('Bang/updatePloicy', params)
+
+//邦保养-邦保养页面 保单列表
+export const putPolicy = (params) => post('Bang/putPolicy', params)
+
+//邦保养-邦保养页面 审核保单
+export const checkPolicy = (params) => post('Bang/checkPolicy', params)
+
+
+//邦保养-邦保养页面 支付油品金额
+export const Payoil = (params) => post('BangQr/pay', params)
+
+//邦保养-邦保养页面 确认扫码支付成功状态
+export const BangQrPayStatus = (params) => post('BangQr/payStatus', params)
+
 // 邦保养-邦保养页面 提交服务表单
 export const submitServeForm = (form) => post('bang/handle', {
     form: form
@@ -528,7 +558,7 @@ export const getWithdrawList = () => post('Complain/index')
 /*
  维保提醒条数
  */
-export const count = () => post('BusOppos/indexWarn', )
+export const count = () => post('BusOppos/indexWarn')
 
 
 
@@ -616,6 +646,6 @@ export const userListD = (page) => post('Attention/userList', {
 // ubi店面弹窗
 export const homegettext = () => GET('login/systemInfo')
 
-export const shareCode = (share_promo_code) => post('Recommend/codeInfo',{share_promo_code:share_promo_code});
+export const shareCode = (share_promo_code) => post('Recommend/codeInfo', { share_promo_code: share_promo_code });
 
-export const getCode = ( ) => post('Main/ifRepetition')
+export const getCode = () => post('Main/ifRepetition')

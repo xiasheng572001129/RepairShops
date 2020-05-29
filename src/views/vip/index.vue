@@ -19,43 +19,42 @@ import heaDer from "@/views/common/Small_header";
 import currentPage from "@/views/common/currentPage";
 import side from "./components/slider";
 export default {
-	components:{
-		heaDer,side,currentPage
-	}
+  components: {
+    heaDer, side, currentPage
+  }
 }
 </script>
 
 <style lang='scss' scoped>
-.currentPage{
-   margin: 60px 50px 0 30px !important;
- }
+.currentPage {
+  margin: 60px 50px 0 30px !important;
+}
 .header {
-width: calc(100% - 160px);
-height: 55px;
-position: fixed ;
-
+  width: calc(100% - 160px);
+  height: 55px;
+  position: fixed;
 }
 .maintainMode {
   height: calc(100% - 55px);
   .sidebar {
-   width: 160px;
+    width: 160px;
   }
   .main {
-   width: calc(100% - 160px);
-   height: 100vh;
-   position: absolute;
-   left: 160px;
+    width: calc(100% - 160px);
+    height: 100vh;
+    position: absolute;
+    left: 160px;
 
-   .smallHeader {
-     position: fixed;
-   }
-   .mainBody {
-     width: 100%;
-     min-height: calc(100vh - 105px);
-     position: absolute;
-     top: 105px;
-     background-color: #fff;
-   }
+    .smallHeader {
+      position: fixed;
+    }
+    .mainBody {
+      width: 100%;
+      min-height: calc(100vh - 105px);
+      position: absolute;
+      top: 105px;
+      background-color: #fff;
+    }
   }
 }
 </style>
