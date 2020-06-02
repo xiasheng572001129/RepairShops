@@ -5,15 +5,18 @@
         <img src="@/assets/images/logo.png">
       </div>
       <ul class="obd-side-ul">
-        <li v-for="item in path" @click="routerto(item.path)" :key="item.index"
-        :class="{'cur':routercur==item.path}">
+        <li v-for="item in path"
+            @click="routerto(item.path)"
+            :key="item.index"
+            :class="{'cur':routercur==item.path}">
           <div class="ic">
             <img v-bind:src="item.icon">
           </div>
           <div class="wz">
             {{item.modules}}
           </div>
-          <div v-if="routercur==item.path" class="arrows">
+          <div v-if="routercur==item.path"
+               class="arrows">
             <img src="@/assets/images/right.png">
           </div>
           <!-- <span>养护提醒</span> -->
@@ -70,8 +73,12 @@
         </router-view>
       </div>
     </div>
-    <el-dialog title="帮助文档" center fullscreen :visible.sync="showhelp">
-      <div v-html="helpdoc" class="helpdoc">
+    <el-dialog title="帮助文档"
+               center
+               fullscreen
+               :visible.sync="showhelp">
+      <div v-html="helpdoc"
+           class="helpdoc">
       </div>
     </el-dialog>
   </div>
@@ -85,7 +92,7 @@ import con4 from "@/assets/generalize/pjgl.png";
 import { post, get } from "../../config/axios";
 import modelHead from "../common/Small_header";
 export default {
-  data() {
+  data () {
     return {
       depotname: "",
       routercur: location.href.split("/").pop(),
@@ -94,10 +101,10 @@ export default {
       path: [
         { path: "upload", modules: "产品上传", icon: con1, name: 1 },
         { path: "control", modules: "产品管理", icon: con2, name: 2 },
-        { path: "Forward", modules: "预约单管理", icon: con3, name: 3 },
+        // { path: "Forward", modules: "预约单管理", icon: con3, name: 3 },
         { path: "assessments", modules: "评价管理", icon: con4, name: 4 }
       ],
-      ifsigning:''
+      ifsigning: ''
     };
   },
   components: {
@@ -113,18 +120,17 @@ export default {
   // 			})
   // 		},
   watch: {
-    ifsigning() {
+    ifsigning () {
       window.sessionStorage.setItem("ifsigning", this.$route.query.ifsigning);
     }
   },
-  created() {
+  created () {
     this.$router.beforeEach((to, last, next) => {
       //路由跳转时更改左侧导航栏按钮样式
       var towhere = to.path.split("/").pop();
       this.routercur = towhere;
       next();
-    });
-
+    }); 
     // post('main/getName', { //获取维修厂名称
     // }).then(e => {
     // 	if(e.data.constructor == String) { //成功时e.data直接是维修厂名称
@@ -135,7 +141,7 @@ export default {
     // 		type: 'error',
     // 		callback: () => {
     // 			if(!e.data.code) {
-    // 				this.$router.push({
+    // 				this.$router.push({ 
     // 					name: '用户登录'
     // 				});
     // 			}
@@ -153,12 +159,12 @@ export default {
   },
   methods: {
     // ...mapActions(['changeMsg']),
-    routerto(where) {
+    routerto (where) {
       this.$router.push({
         path: "/generalize/" + where
       });
     },
-    back() {
+    back () {
       this.$router.go(-1);
     }
     // exit() {

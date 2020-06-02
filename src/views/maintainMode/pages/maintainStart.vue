@@ -152,6 +152,7 @@
                }'>
       <el-form :model="policyData"
                label-width="100px"
+                
                style="width:60%"
                ref="form">
         <el-form-item label="客户类型: "

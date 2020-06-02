@@ -383,7 +383,7 @@ export default {
         return v.name == name    /** 如果当前name等于省数据里面的name则返回下标 **/
       })
       /** 根据下标查找,当前选中的id**/
-      return cover[findIndex].id;
+      return cover[findIndex] && cover[findIndex].id ? cover[findIndex].id : '';
     }
 
   },
