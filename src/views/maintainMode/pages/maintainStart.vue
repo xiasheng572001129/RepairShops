@@ -70,6 +70,23 @@
                    ref="form"
                    :model="form"
                    label-width="120px">
+            <el-form-item label="施工图片"
+                          v-if="carInfo.free==2">
+              <el-upload :action="uploadUrl"
+                         list-type="picture-card"
+                         :limit="3"
+                         name="image"
+                         :data="{token}"
+                         :on-success="constructionSuccess"
+                         :on-remove="constructionRemove"
+                         ref="upload">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <div class="constructionInstance"
+                   @click="viewConstructionImg()">
+                示例
+              </div>
+            </el-form-item>
             <el-form-item label="上次养护里程"
                           v-if="carInfo.last_mileage">
               <span>{{carInfo.last_mileage+'公里'}}</span>
@@ -152,7 +169,6 @@
                }'>
       <el-form :model="policyData"
                label-width="100px"
-                
                style="width:60%"
                ref="form">
         <el-form-item label="客户类型: "
@@ -303,6 +319,21 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <!-- 施工照片实例 -->
+    <el-dialog title="施工照片"
+               center
+               :visible.sync="constructionVisible"
+               width="25%">
+      <div class="constructionImg">
+        <div v-for='(item,index) in constructionImgList'
+             :key="index">
+          <img :src="item.image"
+               ref="constructionImg" />
+          <p>{{item.title}}</p>
+        </div>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -368,6 +399,22 @@ export default {
       PolicyList: {},//保单列表 
       auditLoading: false, //审核通过loading
       fileList: [], //默认显示上传的投保图片
+      constructionVisible: false, //施工照片弹框显示状态
+      constructionImgList: [  //施工照片实例
+        {
+          image: 'https://xmp.ctbls.com/uploads/Gift/20200109/first.png',
+          title: '车前照'
+        },
+        {
+          image: 'https://xmp.ctbls.com/uploads/Gift/20200109/sencnd.png',
+          title: '放油照'
+        },
+        {
+          image: 'https://xmp.ctbls.com/uploads/Gift/20200109/san.png',
+          title: '加油照'
+        }
+      ],
+      oil_photo: [], //所上传的施工照片
     };
   },
   computed: {
@@ -504,13 +551,14 @@ export default {
       let form = this.form,
         carInfo = this.carInfo;
       let fomrData =
-        qs.stringify({ ...form }) + "&" + qs.stringify({ ...carInfo });
+        qs.stringify({ ...form }) + "&" + qs.stringify({ ...carInfo }) + "&" + qs.stringify({ oil_photo: this.oil_photo && this.oil_photo.length > 0 ? this.oil_photo : '' });
       this.submitLoading = true
       let res = await submitServeForm(qs.parse(fomrData));
       this.submitLoading = false
       if (res.data.code == 1) {
         this.dialogVisible = true;
         this.Tips = res.data.msg
+        this.oil_photo = []
       } else {
         this.$message({
           message: res.data.msg,
@@ -593,17 +641,13 @@ export default {
       }
     },
     handlePictureCardPreview (res) {
-      console.log(res, '123')
       this.magnifyImageUrl = res.url
       this.magnifyImgVisible = true
-
     },
     //上传投保图片 成功
     handlePictureCardSuccess (res) {
       this.policyData.pc_img.push(res)
-
     },
-
     //删除投保图片 
     handleRemove (res) {
       let index = this.policyData.pc_img.findIndex(item => {
@@ -694,9 +738,29 @@ export default {
         this.openUpload()
       })
     },
+
+    viewConstructionImg () {  //查看施工照片实例
+      this.constructionVisible = true
+      this.ImgAmplification('constructionImg')
+    },
+
+    //上传投保图片 成功
+    constructionSuccess (res) {
+      this.oil_photo.push(res)
+    },
+    //删除投保图片 
+    constructionRemove (res) {
+      let index = this.oil_photo.findIndex(item => {
+        return item == res.response
+      })
+      this.oil_photo.splice(index, 1)
+    },
+
+
     ImgAmplification (img) {  //图片放大
       this.$nextTick(() => {
         let Img = this.$refs[img]
+        console.log(Img)
         Img.forEach(item => {
           new Viewer(item)
         })
@@ -919,6 +983,35 @@ export default {
 }
 .el-Width {
   width: 55%;
+}
+.constructionInstance {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  color: red;
+  cursor: pointer;
+}
+.constructionImg:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.constructionImg {
+  width: 100%;
+  margin: 0 auto;
+
+  & > div {
+    width: calc(100% / 3 - 20px);
+    text-align: center;
+    float: left;
+    margin: 0 10px;
+
+    img {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+  }
 }
 </style>
 <style>

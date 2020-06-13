@@ -130,7 +130,7 @@ export default {
       var towhere = to.path.split("/").pop();
       this.routercur = towhere;
       next();
-    }); 
+    });
     // post('main/getName', { //获取维修厂名称
     // }).then(e => {
     // 	if(e.data.constructor == String) { //成功时e.data直接是维修厂名称
