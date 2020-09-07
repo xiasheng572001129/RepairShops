@@ -175,6 +175,16 @@
               </el-select>
             </td>
             <td>
+              <span>粘度20 :</span>
+              <el-select v-model="item.val20"
+                         style="min-width:0;width:96px;"
+                         size="mini"
+                         @change="getRemarks(index,20)">
+                <el-option v-for="opt in item.list20"
+                           :key="opt"
+                           :label="opt"
+                           :value="opt"></el-option>
+              </el-select>
               <span>粘度30 :</span>
               <el-select v-model="item.val30"
                          style="min-width:0;width:96px;"
@@ -381,9 +391,14 @@ export default {
     getRemarks: function (index, oil) {
       var temp = this.isLack[index];
       if (oil == 30) {
-        temp.val40 = temp.num - temp.val30;
+        temp.val20 = temp.num - temp.val30 - temp.val40
+        temp.val40 = temp.num - temp.val20 - temp.val30;
+      } else if (oil == 20) {
+        temp.val30 = temp.num - temp.val20 - temp.val40
+        temp.val40 = temp.num - temp.val20 - temp.val30
       } else {
-        temp.val30 = temp.num - temp.val40;
+        temp.val30 = temp.num - temp.val40 - temp.val20;
+        temp.val20 = temp.num - temp.val40 - temp.val30;
       }
       this.$forceUpdate();
     },
@@ -415,9 +430,13 @@ export default {
           for (let p = 0; p < temparr.length; p++) {
             temparr[p] = p;
           }
+          console.log(temparr)
+          objArr[i].list20 = temparr;
           objArr[i].list30 = objArr[i].list40 = temparr;
-          objArr[i].val30 = Math.ceil(objArr[i].num * 0.5);
-          objArr[i].val40 = Math.floor(objArr[i].num * 0.5);
+
+          objArr[i].val20 = Math.ceil(objArr[i].num * 0.343);
+          objArr[i].val30 = Math.ceil(objArr[i].num * 0.329);
+          objArr[i].val40 = Math.floor(objArr[i].num * 0.329);
         }
         this.isLack = objArr;
         this.oilsversion()
@@ -445,7 +464,7 @@ export default {
         })
         enter.materiel = temp.materiel_id == 4 ? this.modelList[materielIndex].name : temp.materiel;
         if (temp.materiel_id != 7) {
-          enter.remarks =
+          enter.remarks = "粘度20：" + temp.val20 + "升，" +
             "粘度30：" + temp.val30 + "升，粘度40：" + temp.val40 + "升";
         } else {
           enter.remarks = temp.remarks;
