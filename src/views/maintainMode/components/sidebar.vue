@@ -15,6 +15,12 @@
                  alt="">
             <span>邦保养</span>
           </router-link>
+          <router-link tag='li'
+                       to='/maintainMode/policyAudit'>
+            <img src="@/assets/obd/pztx.png"
+                 alt="">
+            <span>保单审核</span>
+          </router-link>
           <!-- <router-link tag='li'
                        to='/maintainMode/gift'>
             <img src="../images/gift.png"
@@ -47,7 +53,7 @@
                        to='/maintainMode/activity'>
             <img src="../images/gift.png"
                  alt="">
-            <span>活动管理</span>
+            <span>促销管理</span>
           </router-link>
           <router-link tag='li'
                        to='/maintainMode/upkeepRecord'>

@@ -5,7 +5,7 @@
         <img src="@/assets/images/logo.png">
       </div>
       <ul class="obd-side-ul">
-        <li @click="routerto('szt')"
+        <!-- <li @click="routerto('szt')"
             :class="{'cur':routercur=='szt'}">
           <div class="ic">
             <img src="@/assets/obd/sbzt.png">
@@ -15,16 +15,16 @@
                class="arrows">
             <img src="@/assets/images/right.png">
           </div>
-          <!-- <span>养护提醒</span> -->
-          <!-- <span>{{msg}}</span> -->
-          <!-- <em v-if="rem!=0">{{rem}}</em> -->
-        </li>
+          <span>养护提醒</span>
+          <span>{{msg}}</span>
+          <em v-if="rem!=0">{{rem}}</em>
+        </li> -->
         <li @click="routerto('btx')"
             :class="{'cur':routercur=='btx'}">
           <div class="ic">
             <img src="@/assets/obd/sbzt.png">
           </div>
-          <div class="wz">保单提醒</div>
+          <div class="wz">投保提醒</div>
           <div v-if="routercur=='btx'"
                class="arrows">
             <img src="@/assets/images/right.png">
@@ -48,7 +48,7 @@
           <div class="ic">
             <img src="@/assets/obd/yhtx.png">
           </div>
-          <div class="wz">常规提醒</div>
+          <div class="wz">养护提醒</div>
           <div v-if="routercur=='chance'"
                class="arrows">
             <img src="@/assets/images/right.png">
@@ -62,7 +62,7 @@
                       class="item"></el-badge>
           </em>
         </li>
-        <li @click="routerto('let')"
+        <!-- <li @click="routerto('let')"
             :class="{'cur':routercur=='let'}">
           <div class="ic">
             <img src="@/assets/obd/pftx.png">
@@ -72,17 +72,15 @@
                class="arrows">
             <img src="@/assets/images/right.png">
           </div>
-          <!-- <img src="../../assets/obd/ggtx.png">
-          <span>故障提醒</span>-->
-          <!-- <em v-if="fault!=0">{{fault}}</em> -->
-        </li>
+       
+        </li> -->
 
         <li @click="routerto('put')"
             :class="{'cur':routercur=='put'}">
           <div class="ic">
             <img src="@/assets/obd/pztx.png">
           </div>
-          <div class="wz">碰撞提醒</div>
+          <div class="wz">索客提醒</div>
           <div v-if="routercur=='put'"
                class="arrows">
             <img src="@/assets/images/right.png">
@@ -117,7 +115,7 @@
           <div class="ic">
             <img src="@/assets/obd/cljl.png">
           </div>
-          <div class="wz">处理记录</div>
+          <div class="wz">操作记录</div>
           <div v-if="routercur=='log'"
                class="arrows">
             <img src="@/assets/images/right.png">

@@ -1,161 +1,275 @@
 <template>
-    <div class="materiel">
-        <div class="viewMain">
-          <div class="tabChange">
-            <div :class="[currentTab==1?'second col-32373C tabActive':'','first col-32373C']" @click="tabChange(1)">库存状态</div>
-            <div :class="[currentTab==2?'second col-32373C tabActive':'','first col-32373C']" @click="tabChange(2)">补充记录</div>
+  <div class="materiel">
+    <div class="viewMain">
+      <div class="tabChange">
+        <div :class="[currentTab==1?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(1)">库存状态</div>
+        <div :class="[currentTab==2?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(2)">补充记录</div>
+      </div>
+      <div class="firstBody"
+           v-show="currentTab == 1">
+        <div class="oilItem"
+             v-for="i in oilData">
+          <img :src="i.img"
+               alt="">
+          <div class="oilDet">
+            <span class="oilName col-32373C">{{i.name}}</span>
+            <table class="detTable">
+              <tr>
+                <td>期初授信</td>
+                <td>{{i.ration}}</td>
+              </tr>
+              <tr>
+                <td>物料库存</td>
+                <td>{{i.stock}}</td>
+              </tr>
+              <tr>
+                <td>结余</td>
+                <td>{{i.percentum}}%</td>
+              </tr>
+            </table>
           </div>
-          <div class="firstBody" v-show="currentTab == 1">
-            <div class="oilItem" v-for="i in oilData">
-              <img :src="i.img" alt="">
-              <div class="oilDet">
-                <span class="oilName col-32373C">{{i.name}}</span>
-                <table class="detTable">
-                  <tr>
-                    <td>期初授信</td>
-                    <td>{{i.ration}}</td>
-                  </tr>
-                  <tr>
-                    <td>物料库存</td>
-                    <td>{{i.stock}}</td>
-                  </tr>
-                  <tr>
-                    <td>结余</td>
-                    <td>{{i.percentum}}%</td>
-                  </tr>
-                </table>
-              </div>
-              <el-button class="addOil" type="primary" v-if="i.status == 1" @click="materialWarn">补充物料</el-button>
-            </div>
-          </div>
-          <div class="secondBody" v-show="currentTab == 2">
-            <el-form class="filterCondition demo-form-inline" ref="form" :inline="true" label-width="80px">
-                <el-input placeholder="输入订单编号" v-model="keyword" style="width: 420px;margin-left: 30px;">
-                  <el-button slot="append" type='primary' class='search' style="width: 120px;" @click="supplyRecord">搜索</el-button>
-                </el-input>
-                <el-form-item label="申请时间" style="margin-bottom: 0;width: 520px;margin-left: 30px;">
-                  <el-date-picker v-model="intervalTime" type="daterange" align="right" unlink-panels range-separator="-"
-                    start-placeholder="开始日期" end-placeholder="结束日期" @change="reloadData"
-                    :picker-options="pickerFastOptions" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss" >
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="状态" style="margin-bottom: 0;">
-                  <el-select v-model="status" @change="reloadData"  placeholder="请选择" style="width: 100px;">
-                    <el-option label="待发货" value="0"></el-option>
-                    <el-option label="已发货" value="1"></el-option>
-                    <el-option label="已完成" value="2"></el-option>
-                    <el-option label="已取消" value="3"></el-option>
-                  </el-select>
-                </el-form-item>
-            </el-form>
-            <el-table :data="tableData" :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
-              <el-table-column prop="apply_sn" label="申请编号" align="center" >
-              </el-table-column>
-              <el-table-column prop="create_time" label="申请时间" align="center"  >
-              </el-table-column>
-              <el-table-column prop="audit_time" label="审核时间" align="center" >
-              </el-table-column>
-              <el-table-column prop="audit_status" label="状态" align="center" >
-                <template  slot-scope="scope">
-                  <span v-if="scope.row.audit_status == 0">待发货</span>
-                  <span v-if="scope.row.audit_status == 1">已发货</span>
-                  <span v-if="scope.row.audit_status == 2">已完成</span>
-                  <span v-if="scope.row.audit_status == 3">已取消</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="id" label="物料详情" align="center">
-                <template slot-scope="scope">
-                  <a @click="orderDet(scope.row.id)">查看</a>
-                </template>
-              </el-table-column>
-              <el-table-column prop="reason,id,audit_status,mold" label="操作" align="center" >
-                <template slot-scope="scope">
-                  <el-button v-if="scope.row.audit_status == 0" :disabled="scope.row.mold == 2" @click="withdrawDialogVisible = true;seasonId = scope.row.id;">取消申请</el-button>
-                  <span class="col-32373C" v-if="scope.row.audit_status == 2">---</span>
-                  <span class="col-FF2828" v-if="scope.row.audit_status == 3" @click="previewDialogVisible = true;resReason = scope.row.reason;">取消理由</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="if_delay" label="是否延迟" align="center">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.if_delay == 1">延迟</span>
-                  <span v-if="scope.row.if_delay == 0">否</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-pagination class="page" background layout="prev, pager, next"
-              @current-change="supplyRecord" :current-page.sync="currentPage" :page-count="totalPage" >
-            </el-pagination>
-          </div>
+          <el-button class="addOil"
+                     type="primary"
+                     v-if="i.status == 1"
+                     @click="materialWarn">补充物料</el-button>
         </div>
-        <el-dialog title="补充物料" :visible.sync="supplyDialogVisible" width="1000px" center>
-            <el-form class="supplyDialogBox demo-form-inline" ref="form"  :inline="true" label-width="70px">
-              <table class="applyTable">
-                <tr>
-                  <th>物料名称</th>
-                  <th>物料缺失状态(升)</th>
-                  <th>申请数量(升)</th>
-                </tr>
-                <tr v-for="(item,index) in isLack">
-                  <td>{{item.materiel}}</td>
-                  <td>{{item.num}}</td>
-                  <td>
-                    <span>粘度30 :</span>
-                    <el-select v-model="item.val30" style="min-width:0;width:96px;" size="mini" @change="getRemarks(index,30)">
-                      <el-option v-for="opt in item.list30" :key="opt" :label="opt" :value="opt"></el-option>
-                    </el-select>
-                    <span>粘度40 :</span>
-                    <el-select v-model="item.val40" style="min-width:0;width:96px;" size="mini" @change="getRemarks(index,40)">
-                      <el-option v-for="opt in item.list40" :key="opt" :label="opt" :value="opt"></el-option>
-                    </el-select>
-                    <span></span>
-                  </td>
-                </tr>
-              </table>
-              <span class="col-FF2828">以上物料库存量不足，请点击相应物料进行申请！</span>
-              <el-button class="supplySubmit" type="primary" @click="applyMaterial">立即申请</el-button>
-            </el-form>
-        </el-dialog>
-        <el-dialog  class="" title="补充物料" :visible.sync="supplyDetDialogVisible" width="1000px" center>
-            <el-form class="supplyDetDialogBox demo-form-inline" ref="form" :inline="true" label-width="70px">
-              <table class="applyTable">
-                <tr>
-                  <th>申请编号</th>
-                  <th>申请时间</th>
-                  <th>审核时间</th>
-                </tr>
-                <tr>
-                  <td>{{orderDetData.apply_sn}}</td>
-                  <td>{{orderDetData.create_time}}</td>
-                  <td>{{orderDetData.audit_time}}</td>
-                </tr>
-              </table>
-              <table class="applyTable">
-                <tr>
-                  <th>物料名称</th>
-                  <th>物料数量</th>
-                  <th>备注信息</th>
-                </tr>
-                <tr v-for="item in orderDetData.detail" :key="orderDetData.detail[item]">
-                  <td v-html="item.materiel"></td>
-                  <td v-html="item.num"></td>
-                  <td v-if="item.remarks" v-html="item.remarks"></td>
-                  <td v-if="!item.remarks">--</td>
-                </tr>
-              </table>
-            </el-form>
-        </el-dialog>
-        <el-dialog title="填写取消申请理由" :visible.sync="withdrawDialogVisible" width="1000px" center>
-          <el-form class="withdrawDialogBox demo-form-inline" ref="form"  :inline="true">
-            <textarea name="" v-model="reason" class="withdrawText" cols="30" rows="10" placeholder="输入理由"></textarea>
-            <el-button class="supplySubmit" type="primary" @click="cancelApply">立即申请</el-button>
-          </el-form>
-        </el-dialog>
-        <el-dialog title="取消理由" :visible.sync="previewDialogVisible" width="1000px" center>
-          <div class="previewDialogBox col-32373C">
-            {{resReason}}
-          </div>
-        </el-dialog>
+      </div>
+      <div class="secondBody"
+           v-show="currentTab == 2">
+        <el-form class="filterCondition demo-form-inline"
+                 ref="form"
+                 :inline="true"
+                 label-width="80px">
+          <el-input placeholder="输入订单编号"
+                    v-model="keyword"
+                    style="width: 420px;margin-left: 30px;">
+            <el-button slot="append"
+                       type='primary'
+                       class='search'
+                       style="width: 120px;"
+                       @click="supplyRecord">搜索</el-button>
+          </el-input>
+          <el-form-item label="申请时间"
+                        style="margin-bottom: 0;width: 520px;margin-left: 30px;">
+            <el-date-picker v-model="intervalTime"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            range-separator="-"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            @change="reloadData"
+                            :picker-options="pickerFastOptions"
+                            style="width: 100%;"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="状态"
+                        style="margin-bottom: 0;">
+            <el-select v-model="status"
+                       @change="reloadData"
+                       placeholder="请选择"
+                       style="width: 100px;">
+              <el-option label="待发货"
+                         value="0"></el-option>
+              <el-option label="已发货"
+                         value="1"></el-option>
+              <el-option label="已完成"
+                         value="2"></el-option>
+              <el-option label="已取消"
+                         value="3"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-table :data="tableData"
+                  :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
+          <el-table-column prop="apply_sn"
+                           label="申请编号"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="create_time"
+                           label="申请时间"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="audit_time"
+                           label="审核时间"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="audit_status"
+                           label="状态"
+                           align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.audit_status == 0">待发货</span>
+              <span v-if="scope.row.audit_status == 1">已发货</span>
+              <span v-if="scope.row.audit_status == 2">已完成</span>
+              <span v-if="scope.row.audit_status == 3">已取消</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="id"
+                           label="物料详情"
+                           align="center">
+            <template slot-scope="scope">
+              <a @click="orderDet(scope.row.id)">查看</a>
+            </template>
+          </el-table-column>
+          <el-table-column prop="reason,id,audit_status,mold"
+                           label="操作"
+                           align="center">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.audit_status == 0"
+                         :disabled="scope.row.mold == 2"
+                         @click="withdrawDialogVisible = true;seasonId = scope.row.id;">取消申请</el-button>
+              <span class="col-32373C"
+                    v-if="scope.row.audit_status == 2">---</span>
+              <span class="col-FF2828"
+                    v-if="scope.row.audit_status == 3"
+                    @click="previewDialogVisible = true;resReason = scope.row.reason;">取消理由</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="if_delay"
+                           label="是否延迟"
+                           align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.if_delay == 1">延迟</span>
+              <span v-if="scope.row.if_delay == 0">否</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination class="page"
+                       background
+                       layout="prev, pager, next"
+                       @current-change="supplyRecord"
+                       :current-page.sync="currentPage"
+                       :page-count="totalPage">
+        </el-pagination>
+      </div>
     </div>
+    <el-dialog title="补充物料"
+               :visible.sync="supplyDialogVisible"
+               width="1000px"
+               center>
+      <el-form class="supplyDialogBox demo-form-inline"
+               ref="form"
+               :inline="true"
+               label-width="70px">
+        <table class="applyTable">
+          <tr>
+            <th>物料名称</th>
+            <th>物料缺失状态(升)</th>
+            <th>选择型号</th>
+            <th>申请数量(升)</th>
+          </tr>
+          <tr v-for="(item,index) in isLack"
+              :key="index">
+            <td>{{item.materiel}}</td>
+            <td>{{item.num}}</td>
+            <td>
+              <el-select v-model="materiel_id[index]"
+                         v-if="item.materiel_id==4">
+                <el-option v-for="(item,index) in modelList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </td>
+            <td>
+              <span>粘度30 :</span>
+              <el-select v-model="item.val30"
+                         style="min-width:0;width:96px;"
+                         size="mini"
+                         @change="getRemarks(index,30)">
+                <el-option v-for="opt in item.list30"
+                           :key="opt"
+                           :label="opt"
+                           :value="opt"></el-option>
+              </el-select>
+              <span>粘度40 :</span>
+              <el-select v-model="item.val40"
+                         style="min-width:0;width:96px;"
+                         size="mini"
+                         @change="getRemarks(index,40)">
+                <el-option v-for="opt in item.list40"
+                           :key="opt"
+                           :label="opt"
+                           :value="opt"></el-option>
+              </el-select>
+              <span></span>
+            </td>
+          </tr>
+        </table>
+        <span class="col-FF2828">以上物料库存量不足，请点击相应物料进行申请！</span>
+        <el-button class="supplySubmit"
+                   type="primary"
+                   @click="applyMaterial">立即申请</el-button>
+      </el-form>
+    </el-dialog>
+    <el-dialog class=""
+               title="补充物料"
+               :visible.sync="supplyDetDialogVisible"
+               width="1000px"
+               center>
+      <el-form class="supplyDetDialogBox demo-form-inline"
+               ref="form"
+               :inline="true"
+               label-width="70px">
+        <table class="applyTable">
+          <tr>
+            <th>申请编号</th>
+            <th>申请时间</th>
+            <th>审核时间</th>
+          </tr>
+          <tr>
+            <td>{{orderDetData.apply_sn}}</td>
+            <td>{{orderDetData.create_time}}</td>
+            <td>{{orderDetData.audit_time}}</td>
+          </tr>
+        </table>
+        <table class="applyTable">
+          <tr>
+            <th>物料名称</th>
+            <th>物料数量</th>
+            <th>备注信息</th>
+          </tr>
+          <tr v-for="item in orderDetData.detail"
+              :key="orderDetData.detail[item]">
+            <td v-html="item.materiel"></td>
+            <td v-html="item.num"></td>
+            <td v-if="item.remarks"
+                v-html="item.remarks"></td>
+            <td v-if="!item.remarks">--</td>
+          </tr>
+        </table>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="填写取消申请理由"
+               :visible.sync="withdrawDialogVisible"
+               width="1000px"
+               center>
+      <el-form class="withdrawDialogBox demo-form-inline"
+               ref="form"
+               :inline="true">
+        <textarea name=""
+                  v-model="reason"
+                  class="withdrawText"
+                  cols="30"
+                  rows="10"
+                  placeholder="输入理由"></textarea>
+        <el-button class="supplySubmit"
+                   type="primary"
+                   @click="cancelApply">立即申请</el-button>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="取消理由"
+               :visible.sync="previewDialogVisible"
+               width="1000px"
+               center>
+      <div class="previewDialogBox col-32373C">
+        {{resReason}}
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import {
@@ -164,17 +278,18 @@ import {
   applyMaterial,
   materialSupplyRecord,
   applyOrderDet,
-  cancelMaterialApply
+  cancelMaterialApply,
+  Oilsversion
 } from "@/server/serverData";
 export default {
-  data() {
+  data () {
     return {
       supplyDialogVisible: false,
       supplyDetDialogVisible: false,
       withdrawDialogVisible: false,
       previewDialogVisible: false,
       currentTab: 1,
-      seasonId:'',
+      seasonId: '',
       //
       oilData: [],
       isLack: [],
@@ -183,7 +298,8 @@ export default {
       currentPage: 1,
       totalPage: 50,
       tableData: [],
-
+      modelList: [], //型号列表 
+      materiel_id: [], //当前选中的型号Id
       orderDetData: "",
 
       reasonId: "",
@@ -199,7 +315,7 @@ export default {
         shortcuts: [
           {
             text: "最近一周",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
@@ -208,7 +324,7 @@ export default {
           },
           {
             text: "最近一个月",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
@@ -217,7 +333,7 @@ export default {
           },
           {
             text: "最近三个月",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -230,7 +346,7 @@ export default {
   },
   computed: {},
   methods: {
-    tabChange(tab) {
+    tabChange (tab) {
       this.currentTab = tab;
       if (tab == 1) {
         this.getMaterial();
@@ -238,10 +354,10 @@ export default {
         this.supplyRecord();
       }
     },
-    reloadData() {
+    reloadData () {
       this.supplyRecord();
     },
-    async orderDet(id) {
+    async orderDet (id) {
       let res = await applyOrderDet(id);
       if (res.data.code == 1) {
         res.data.data.detail = eval(res.data.data.detail);
@@ -254,7 +370,15 @@ export default {
         });
       }
     },
-    getRemarks: function(index, oil) {
+    async oilsversion () {  //型号列表
+      try {
+        const res = await Oilsversion()
+        this.modelList = res.data.data || []
+      } catch (error) {
+        throw (error)
+      }
+    },
+    getRemarks: function (index, oil) {
       var temp = this.isLack[index];
       if (oil == 30) {
         temp.val40 = temp.num - temp.val30;
@@ -263,7 +387,7 @@ export default {
       }
       this.$forceUpdate();
     },
-    async getMaterial() {
+    async getMaterial () {
       let res = await getMaterial();
       if (res.data.code == 1) {
         this.oilData = res.data.data;
@@ -274,36 +398,37 @@ export default {
         });
       }
     },
-async materialWarn() {
-  let res = await materialIsLack();
-  if (res.data.code == 1) {
-    this.supplyDialogVisible = true;
-    var arr = res.data.data,
-            objArr = [];
-    objArr.length = arr.length;
-    for (var i = 0; i < arr.length; i++) {
-      objArr[i] = {};
-      objArr[i].num = arr[i].apply;
-      objArr[i].materiel_id = arr[i].materiel_id;
-      objArr[i].materiel = arr[i].materiel;
-      objArr[i].remarks = "";
-      let temparr = new Array(objArr[i].num + 1);
-      for (let p = 0; p < temparr.length; p++) {
-        temparr[p] = p;
+    async materialWarn () {
+      let res = await materialIsLack();
+      if (res.data.code == 1) {
+        this.supplyDialogVisible = true;
+        var arr = res.data.data,
+          objArr = [];
+        objArr.length = arr.length;
+        for (var i = 0; i < arr.length; i++) {
+          objArr[i] = {};
+          objArr[i].num = arr[i].apply;
+          objArr[i].materiel_id = arr[i].materiel_id;
+          objArr[i].materiel = arr[i].materiel;
+          objArr[i].remarks = "";
+          let temparr = new Array(objArr[i].num + 1);
+          for (let p = 0; p < temparr.length; p++) {
+            temparr[p] = p;
+          }
+          objArr[i].list30 = objArr[i].list40 = temparr;
+          objArr[i].val30 = Math.ceil(objArr[i].num * 0.5);
+          objArr[i].val40 = Math.floor(objArr[i].num * 0.5);
+        }
+        this.isLack = objArr;
+        this.oilsversion()
+      } else {
+        this.$message({
+          message: res.data.msg,
+          type: "warning"
+        });
       }
-      objArr[i].list30 = objArr[i].list40 = temparr;
-      objArr[i].val30 = Math.ceil(objArr[i].num * 0.5);
-      objArr[i].val40 = Math.floor(objArr[i].num * 0.5);
-    }
-    this.isLack = objArr;
-  } else {
-    this.$message({
-      message: res.data.msg,
-      type: "warning"
-    });
-  }
-},
-    async applyMaterial() {
+    },
+    async applyMaterial () {
       var that = this,
         obj = that.isLack,
         subdata = [];
@@ -314,8 +439,9 @@ async materialWarn() {
         let temp = obj[i],
           enter = {};
         enter.num = temp.num;
-        enter.materiel_id = temp.materiel_id;
+        enter.materiel_id = temp.materiel_id == 4 ? this.materiel_id[i] : temp.materiel_id;
         enter.materiel = temp.materiel;
+
         if (temp.materiel_id != 7) {
           enter.remarks =
             "粘度30：" + temp.val30 + "升，粘度40：" + temp.val40 + "升";
@@ -324,8 +450,10 @@ async materialWarn() {
         }
         subdata.push(enter);
       }
+      console.log(subdata)
       subdata = JSON.stringify(subdata);
       this.supplyDialogVisible = false;
+
       let res = await applyMaterial(subdata);
       if (res.data.code == 1) {
         this.$message({
@@ -339,7 +467,7 @@ async materialWarn() {
         });
       }
     },
-    async supplyRecord() {
+    async supplyRecord () {
       let startTime, endTime;
       if (this.intervalTime && this.intervalTime[0] && this.intervalTime[1]) {
         startTime = this.intervalTime[0];
@@ -367,7 +495,7 @@ async materialWarn() {
         });
       }
     },
-    async cancelApply() {
+    async cancelApply () {
       console.log(this.seasonId)
       let res = await cancelMaterialApply(this.seasonId, this.reason);
       if (res.data.code == 1) {
@@ -385,18 +513,18 @@ async materialWarn() {
       }
     }
   },
-  created() {
+  created () {
     this.getMaterial();
   }
 };
 </script>
 <style lang="scss" scoped>
-
-  /deep/ .el-input-group__append, .el-input-group__prepend{
-           background-color: #3498E9;
-           border: none;
-           color: white;
-         }
+/deep/ .el-input-group__append,
+.el-input-group__prepend {
+  background-color: #3498e9;
+  border: none;
+  color: white;
+}
 .materiel {
   min-height: calc(100vh - 105px);
   background-color: #fff;

@@ -107,7 +107,8 @@ import {
   apply,
   homegettext,
   UpgradeQrpay,
-  payStatus
+  payStatus,
+  ActivationCode
 } from "@/server/serverData";
 import { mapState } from "vuex";
 import heaDer from "@/views/common/header";
@@ -175,6 +176,7 @@ export default {
         /** 获取消息 **/
         let res = await getList();
         if (res.data.code == 1) {
+          console.log(res)
         }
       } catch (err) {
         console.log(err);
@@ -275,16 +277,54 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+
+    //激活码
+    activationCode () {
+      if (this.$route.params.code_log == 1) {
+        this.$prompt('请输入服务工号', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /\S/,
+          inputErrorMessage: '请输入服务工号',
+          closeOnClickModal: false,
+          beforeClose: (action, instance, done) => {
+            if (action == 'confirm') {
+              let value = instance.inputValue;
+              try {
+                ActivationCode({
+                  sid: this.$route.params.sid,
+                  promo_code: value
+                }).then(res => {
+                  if (res.data.code == 1) {
+                    this.$message({ message: res.data.msg, type: "success" })
+                    this.init()
+                    done()
+                  } else {
+                    this.$message.error(res.data.msg)
+                  }
+                })
+              } catch (error) {
+                throw (error)
+              }
+            } else {
+              done()
+            }
+          }
+        }).then(() => { }).catch(() => { })
+      }
     }
 
 
   },
 
   mounted () {
+
     this.init();
     this.$nextTick(() => {
       console.log(this.phoneList);
     });
+    this.activationCode()
     this.materiel();
     if (this.$route.params.shop_type == 2) {
       // 当店铺类别是2 ubi店铺时

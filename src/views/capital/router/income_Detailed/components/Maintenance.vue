@@ -30,7 +30,7 @@
                      name="b">
           <component is='service_car'></component>
         </el-tab-pane>
-        <el-tab-pane label="罚款记录"
+        <el-tab-pane label="违规记录"
                      name="c">
           <component is='fine_record'></component>
         </el-tab-pane>

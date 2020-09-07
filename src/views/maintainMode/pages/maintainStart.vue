@@ -23,9 +23,9 @@
           <button style="margin-left:20px"
                   v-if="carInfo && carInfo.name && carInfo.if_policy==2 && carInfo.put_policy==1"
                   @click="openUpload()">上传保单</button>
-          <button style="margin-left:20px"
+          <!-- <button style="margin-left:20px"
                   v-if="carInfo && carInfo.name && carInfo.if_policy==2 && carInfo.put_policy==2"
-                  @click="auditPolicy()">审核保单</button>
+                  @click="auditPolicy()">审核保单</button> -->
         </div>
         <div class="carInfo"
              v-if="carInfo && carInfo.name">
@@ -51,8 +51,10 @@
               </tr>
               <tr>
                 <td>建议保养周期：</td>
+
                 <td>{{carInfo.month}}</td>
-                <td>服务费(含机滤)：</td>
+                <td>服务费<span v-if="carInfo.free!=2"
+                        style="font-size:14px">(含机滤)</span>：</td>
                 <td>{{` ${parseInt(carInfo.hour_charge)+parseInt(carInfo.filter)}  元`}}</td>
               </tr>
               <tr>
@@ -64,6 +66,7 @@
             <span class="col-32373C">
               此卡剩余次数：{{carInfo.remain_times}}次
               <span v-if="carInfo.msgs">（{{carInfo.msgs}}）</span>
+
             </span>
           </div>
           <el-form class="elForm"
@@ -74,7 +77,7 @@
                           v-if="carInfo.free==2">
               <el-upload :action="uploadUrl"
                          list-type="picture-card"
-                         :limit="3"
+                         :limit="1"
                          name="image"
                          :data="{token}"
                          :on-success="constructionSuccess"
@@ -85,6 +88,11 @@
               <div class="constructionInstance"
                    @click="viewConstructionImg()">
                 示例
+              </div>
+            </el-form-item>
+            <el-form-item v-if="carInfo.free==2">
+              <div style="color:red">
+                需清晰上传施工照
               </div>
             </el-form-item>
             <el-form-item label="上次养护里程"
@@ -401,18 +409,15 @@ export default {
       fileList: [], //默认显示上传的投保图片
       constructionVisible: false, //施工照片弹框显示状态
       constructionImgList: [  //施工照片实例
-        {
-          image: 'https://xmp.ctbls.com/uploads/Gift/20200109/first.png',
-          title: '车前照'
-        },
+        // {
+        //   image: 'https://xmp.ctbls.com/uploads/Gift/20200109/first.png',
+        //   title: '车前照'
+        // },
         {
           image: 'https://xmp.ctbls.com/uploads/Gift/20200109/sencnd.png',
-          title: '放油照'
+          title: '施工照'
         },
-        {
-          image: 'https://xmp.ctbls.com/uploads/Gift/20200109/san.png',
-          title: '加油照'
-        }
+
       ],
       oil_photo: [], //所上传的施工照片
     };
@@ -420,10 +425,14 @@ export default {
   computed: {
     nextMileage () {
       return this.form.the_mileage < 0
-        ? Number(this.carInfo.km) + Number(this.carInfo.last_mileage)
+        ? Number(this.carInfo.km)
+
+        // + Number(this.carInfo.last_mileage)
         : Number(this.carInfo.km) +
-        Number(this.form.the_mileage) +
-        Number(this.carInfo.last_mileage);
+        Number(this.form.the_mileage)
+
+      // +
+      // Number(this.carInfo.last_mileage);
     },
     ThisTimeMileage () {
       return this.form.the_mileage;
@@ -687,7 +696,7 @@ export default {
       }
     },
     async auditPolicy () {  //保单列表
-      console.log(123)
+
       try {
         this.auditPolicyVisible = true
         const res = await putPolicy({
@@ -1001,14 +1010,14 @@ export default {
   margin: 0 auto;
 
   & > div {
-    width: calc(100% / 3 - 20px);
+    width: calc(100% / 1 - 20px);
     text-align: center;
     float: left;
     margin: 0 10px;
 
     img {
       width: 100%;
-      height: 100px;
+      height: 150px;
       margin-bottom: 10px;
     }
   }

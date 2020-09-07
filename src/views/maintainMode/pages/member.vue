@@ -68,11 +68,14 @@
           <el-table-column prop="car_type"
                            label="车型"
                            align="center">
+            <template slot-scope="scope">
+              {{`${scope.row.car_type}(${scope.row.car_emissions})`}}
+            </template>
           </el-table-column>
-          <el-table-column prop="car_emissions"
+          <!-- <el-table-column prop="car_emissions"
                            label="排量"
-                           align="center">
-          </el-table-column>
+                           align="center"> 
+          </el-table-column> -->
           <el-table-column prop="name"
                            label="车主姓名"
                            align="center">
@@ -87,6 +90,14 @@
           </el-table-column>
           <el-table-column prop="card_type"
                            label="购卡类型"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="upkeep_km"
+                           label="公里数( km )"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="violation"
+                           label="违章次数"
                            align="center">
           </el-table-column>
           <el-table-column prop="oils_status"

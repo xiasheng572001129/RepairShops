@@ -36,6 +36,7 @@
               </div>
               <div class="border_clear jump">
                 <!--<a href="javascript:;" @click="register">注册</a>-->
+                <a href="https://xmp.ctbls.com/uploads/Gift/20180823/weixiuchang.docx">下载协议</a>
                 <router-link to="/Reset_Password">忘记密码</router-link>
               </div>
             </div>
@@ -124,23 +125,23 @@ export default {
         this.$store.commit("shop_status", res.data.code);
         switch (res.data.code) {
           /** 0 表示当前用户尚未支付，请求支付系统使用费接口，切换页面展示二维码进行支付 **/
-          //   case 0:
-          //   console.log(0)
-          //     this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
-          //       dangerouslyUseHTMLString: true,
-          //       confirmButtonText: "确定",
-          //       cancelButtonText: "取消",
-          //       type: "warning"
-          //     })
-          //       .then(() => {
-          //         window.sessionStorage.setItem("shop_type", 1);
-          //         that.$router.push({
-          //           path: "/register/Repair_information",
-          //           query: { sid: res.data.data.sid }
-          //         });
-          //       })
-          //       .catch(() => {});
-          //     break;
+          case 6:
+
+            this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
+              dangerouslyUseHTMLString: true,
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(() => {
+                window.sessionStorage.setItem("shop_type", 1);
+                that.$router.push({
+                  path: "/register/Repair_information",
+                  query: { sid: res.data.data.sid }
+                });
+              })
+              .catch(() => { });
+            break;
           /** 1-未完善信息，跳转到完善信息页面，让用户完善信息 **/
           case 1:
             console.log(1)
@@ -151,6 +152,7 @@ export default {
               confirmButtonText: "确定",
               cancelButtonText: "取消",
               type: "warning"
+
             })
               .then(() => {
                 that.$router.push({
@@ -189,6 +191,7 @@ export default {
                   // console.log(action)
                   window.sessionStorage.setItem("action", action);
                   window.sessionStorage.setItem("token", res.data.data.token);
+                  window.sessionStorage.setItem("sid", res.data.data.sid); //维修厂id
                   window.sessionStorage.setItem(
                     "username",
                     res.data.data.shop_name
@@ -197,7 +200,7 @@ export default {
                     "shop_type",
                     res.data.data.shop_type
                   );
-                  that.$router.push("/home");
+                  that.$router.push({ path: '/home', query: { code_log: res.data.data.code_log } });
                   that.form = {
                     usname: "",
                     passwd: "",
@@ -217,6 +220,7 @@ export default {
                 let action = JSON.stringify(res.data.data.action.msg);
                 window.sessionStorage.setItem("action", action);
                 window.sessionStorage.setItem("token", res.data.data.token);
+                window.sessionStorage.setItem("sid", res.data.data.sid); //维修厂id
                 window.sessionStorage.setItem(
                   "username",
                   res.data.data.shop_name
@@ -227,7 +231,7 @@ export default {
                 );
                 that.$router.push({
                   name: "home",
-                  params: { shop_type: res.data.data.shop_type, if_action: res.data.data.if_action, sid: res.data.data.sid }
+                  params: { shop_type: res.data.data.shop_type, if_action: res.data.data.if_action, sid: res.data.data.sid, code_log: res.data.data.code_log }
                 });
                 that.form = {
                   usname: "",
@@ -414,6 +418,7 @@ export default {
         clear: both;
         display: block;
       }
+
       .jump > a {
         float: left;
       }

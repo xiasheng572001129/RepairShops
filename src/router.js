@@ -241,6 +241,24 @@ const router = new Router({
             }
         },
         {
+            path: 'policyAudit',
+            name: 'policyAudit',
+            component: () => import( /* webpackChunkName: "policyAudit" */ '@/views/maintainMode/pages/policyAudit'),
+            meta: {
+                current: [{
+                    name: '首页',
+                    path: '/home'
+                }, {
+                    name: ' / 邦保养管理',
+                    path: '/maintainMode'
+                }, {
+                    name: ' / 保单审核',
+                    path: 'policyAudit'
+                }],
+                id: 191
+            }
+        },
+        {
             path: 'gift',
             name: 'gift',
             component: () => import( /* webpackChunkName: "maintainMode" */ '@/views/maintainMode/pages/gift'),
@@ -632,7 +650,7 @@ const router = new Router({
         path: '/obd',
         component: () => import('@/views/obd/shell'),
         name: 'obd',
-        redirect: '/obd/szt',
+        redirect: '/obd/btx',
         children: [{
             path: '/obd/chance',
             component: () => import('@/views/obd/chance'),
@@ -810,7 +828,7 @@ const router = new Router({
     //
     //     ]
     // },
-    { //店面推广
+    { //团购推广
         path: '/generalize',
         component: () => import('@/views/generalize/shell'),
         name: 'generalize',
@@ -824,7 +842,7 @@ const router = new Router({
                     name: '首页',
                     path: '/home'
                 }, {
-                    name: '/ 店面推广',
+                    name: '/ 团购推广',
                     path: '/generalize'
                 }, {
                     name: ' / 产品上传',
@@ -841,7 +859,7 @@ const router = new Router({
                     name: '首页',
                     path: '/home'
                 }, {
-                    name: '/ 店面推广',
+                    name: '/ 团购推广',
                     path: '/generalize'
                 }, {
                     name: ' / 产品管理',
@@ -858,7 +876,7 @@ const router = new Router({
                     name: '首页',
                     path: '/home'
                 }, {
-                    name: '/ 店面推广',
+                    name: '/ 团购推广',
                     path: '/generalize'
                 }, {
                     name: ' / 预约单管理',
@@ -875,7 +893,7 @@ const router = new Router({
                     name: '首页',
                     path: '/home'
                 }, {
-                    name: '/ 店面推广',
+                    name: '/ 团购推广',
                     path: '/generalize'
                 }, {
                     name: ' / 评价管理',

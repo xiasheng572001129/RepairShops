@@ -7,7 +7,7 @@
                      class='maintain'>邦保养管理</router-link>
         <router-link tag='li'
                      :to='{path:"/generalize",query: {ifsigning: 1}}'
-                     class='Storefront'>促销推广</router-link>
+                     class='Storefront'>团购推广</router-link>
         <router-link tag='li'
                      to='/obd'
                      class='Maintenance'>维保商机</router-link>

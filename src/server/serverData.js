@@ -221,6 +221,11 @@ export const unreaLock = (data) => post('SystemMsg/unreaLock', data)
  */
 export const apply = () => post('mate/apply')
 
+/**
+ * 激活码 是否激活 
+ */
+export const ActivationCode = (data) => post('Login/updateActivationCode', data)
+
 
 /**
  *  首页下方的两个电话号
@@ -447,8 +452,7 @@ export const updatePloicy = (params) => post('Bang/updatePloicy', params)
 //邦保养-邦保养页面 保单列表
 export const putPolicy = (params) => post('Bang/putPolicy', params)
 
-//邦保养-邦保养页面 审核保单
-export const checkPolicy = (params) => post('Bang/checkPolicy', params)
+
 
 
 //邦保养-邦保养页面 支付油品金额
@@ -462,6 +466,12 @@ export const submitServeForm = (form) => post('bang/handle', {
     form: form
 })
 
+// 邦保养-保单审核-列表
+export const policyAuditList = (params) => post('Bang/handlePolicy', params)
+//邦保养-保单审核-审核
+export const checkPolicy = (params) => post('Bang/checkPolicy', params)
+
+
 // 邦保养-物料管理页面  获取物料
 export const getMaterial = () => post('mate/getStock')
 
@@ -471,6 +481,8 @@ export const materialIsLack = () => post('mate/apply')
 export const applyMaterial = (detail) => post('mate/handle', {
     detail: detail
 })
+// 邦保养-物料管理页面 选择型号
+export const Oilsversion = () => post('Mate/oilsversion')
 // 邦保养-物料管理页面
 export const materialSupplyRecord = (page, key, startTime, endTime, status) => post('mate/log', {
     page: page,
@@ -585,7 +597,7 @@ export const shareD = (number) => post('Analyze/share', {
 // 数据分析  资金饼图
 export const getFundAllD = () => post('fundOver/getFundAll')
 // 数据分析  资金折线图
-export const getTrendListD = (num, startTime, endTime, ) => post('fundOver/getTrendList', {
+export const getTrendListD = (num, startTime, endTime,) => post('fundOver/getTrendList', {
     num: num,
     startTime: startTime,
     endTime: endTime,
@@ -596,7 +608,7 @@ export const CarPriceD = () => post('fundOver/CarPrice')
 export const CompleteCountD = () => post('fundOver/CompleteCount')
 
 // 数据分析  车主折线图
-export const getCarTrendD = (num, startTime, endTime, ) => post('fundOver/getCarTrend', {
+export const getCarTrendD = (num, startTime, endTime,) => post('fundOver/getCarTrend', {
     num: num,
     startTime: startTime,
     endTime: endTime,
@@ -605,7 +617,7 @@ export const getCarTrendD = (num, startTime, endTime, ) => post('fundOver/getCar
 // 数据分析  物料消耗饼图
 export const materialD = () => post('Analyze/material')
 // 数据分析  物料消耗折线
-export const materialLineD = (num, startTime, endTime, ) => post('Analyze/materialLine', {
+export const materialLineD = (num, startTime, endTime,) => post('Analyze/materialLine', {
     num: num,
     startTime: startTime,
     endTime: endTime,
@@ -623,7 +635,7 @@ export const getMaAllNum3D = () => post('MateAna/getMaAllNum3')
 // 数据分析  物料补充4饼图
 export const getMaAllNum4D = () => post('MateAna/getMaAllNum4')
 // 数据分析  物料补充表格
-export const embodyD = (num, startTime, endTime, ) => post('Analyze/embody', {
+export const embodyD = (num, startTime, endTime,) => post('Analyze/embody', {
     num: num,
     startTime: startTime,
     endTime: endTime,
@@ -631,7 +643,7 @@ export const embodyD = (num, startTime, endTime, ) => post('Analyze/embody', {
 
 
 // 数据分析  关注折线图
-export const attentLineD = (num, startTime, endTime, ) => post('Attention/attentLine', {
+export const attentLineD = (num, startTime, endTime,) => post('Attention/attentLine', {
     num: num,
     startTime: startTime,
     endTime: endTime,
