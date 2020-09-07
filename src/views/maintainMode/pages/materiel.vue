@@ -440,8 +440,10 @@ export default {
           enter = {};
         enter.num = temp.num;
         enter.materiel_id = temp.materiel_id == 4 ? this.materiel_id[i] : temp.materiel_id;
-        enter.materiel = temp.materiel;
-
+        let materielIndex = this.modelList.findIndex(item => {
+          return item.id == this.materiel_id[i]
+        })
+        enter.materiel = temp.materiel_id == 4 ? this.modelList[materielIndex].name : temp.materiel;
         if (temp.materiel_id != 7) {
           enter.remarks =
             "粘度30：" + temp.val30 + "升，粘度40：" + temp.val40 + "升";
@@ -453,7 +455,6 @@ export default {
       console.log(subdata)
       subdata = JSON.stringify(subdata);
       this.supplyDialogVisible = false;
-
       let res = await applyMaterial(subdata);
       if (res.data.code == 1) {
         this.$message({
