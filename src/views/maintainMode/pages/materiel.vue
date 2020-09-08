@@ -177,8 +177,9 @@
             <td>
               <span>粘度20 :</span>
               <el-select v-model="item.val20"
-                         style="min-width:0;width:96px;"
+                         style="min-width:0;width:80px;"
                          size="mini"
+                         class="viscositySelect"
                          @change="getRemarks(index,20)">
                 <el-option v-for="opt in item.list20"
                            :key="opt"
@@ -187,23 +188,25 @@
               </el-select>
               <span>粘度30 :</span>
               <el-select v-model="item.val30"
-                         style="min-width:0;width:96px;"
+                         style="min-width:0;width:80px;"
                          size="mini"
-                         @change="getRemarks(index,30)">
+                         @change="getRemarks(index,30)"
+                         class="viscositySelect">
                 <el-option v-for="opt in item.list30"
                            :key="opt"
                            :label="opt"
                            :value="opt"></el-option>
               </el-select>
-              <span>粘度40 :</span>
+              <span>粘度40 : </span>
               <el-select v-model="item.val40"
-                         style="min-width:0;width:96px;"
+                         style="min-width:0;width:80px;"
                          size="mini"
                          @change="getRemarks(index,40)">
                 <el-option v-for="opt in item.list40"
                            :key="opt"
                            :label="opt"
-                           :value="opt"></el-option>
+                           :value="opt"
+                           class="viscositySelect"></el-option>
               </el-select>
               <span></span>
             </td>
@@ -391,14 +394,15 @@ export default {
     getRemarks: function (index, oil) {
       var temp = this.isLack[index];
       if (oil == 30) {
-        temp.val20 = temp.num - temp.val30 - temp.val40
-        temp.val40 = temp.num - temp.val20 - temp.val30;
+        temp.val20 = temp.num - temp.val30 - temp.val40 > 0 ? temp.num - temp.val30 - temp.val40 : 0
+        temp.val40 = temp.num - temp.val20 - temp.val30 > 0 ? temp.num - temp.val20 - temp.val30 : 0;
       } else if (oil == 20) {
-        temp.val30 = temp.num - temp.val20 - temp.val40
-        temp.val40 = temp.num - temp.val20 - temp.val30
+        temp.val30 = temp.num - temp.val20 - temp.val40 > 0 ? temp.num - temp.val20 - temp.val40 : 0
+
+        temp.val40 = temp.num - temp.val20 - temp.val30 > 0 ? temp.num - temp.val20 - temp.val30 : 0
       } else {
-        temp.val30 = temp.num - temp.val40 - temp.val20;
-        temp.val20 = temp.num - temp.val40 - temp.val30;
+        temp.val30 = temp.num - temp.val40 - temp.val20 > 0 ? temp.num - temp.val40 - temp.val20 : 0;
+        temp.val20 = temp.num - temp.val40 - temp.val30 > 0 ? temp.num - temp.val40 - temp.val30 : 0;
       }
       this.$forceUpdate();
     },
@@ -430,7 +434,7 @@ export default {
           for (let p = 0; p < temparr.length; p++) {
             temparr[p] = p;
           }
-          console.log(temparr)
+
           objArr[i].list20 = temparr;
           objArr[i].list30 = objArr[i].list40 = temparr;
 
@@ -676,6 +680,9 @@ export default {
     height: 44px;
     margin-top: 16px;
     background: rgba(0, 153, 255, 1);
+  }
+  .viscositySelect {
+    margin: 0 10px;
   }
 }
 .supplyDialogBox,
