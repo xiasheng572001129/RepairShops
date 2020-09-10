@@ -437,10 +437,10 @@ export default {
 
           objArr[i].list20 = temparr;
           objArr[i].list30 = objArr[i].list40 = temparr;
-
-          objArr[i].val20 = Math.ceil(objArr[i].num * 0.343);
-          objArr[i].val30 = Math.ceil(objArr[i].num * 0.329);
-          objArr[i].val40 = Math.floor(objArr[i].num * 0.329);
+          console.log(objArr)
+          objArr[i].val20 = Math.ceil(objArr[i].num / 3);
+          objArr[i].val30 = Math.floor(objArr[i].num / 3);
+          objArr[i].val40 = Math.floor(objArr[i].num - objArr[i].val20 - objArr[i].val30)
         }
         this.isLack = objArr;
         this.oilsversion()
