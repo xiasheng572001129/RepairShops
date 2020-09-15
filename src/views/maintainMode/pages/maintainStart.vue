@@ -62,7 +62,7 @@
               </tr>
               <tr>
                 <td colspan='4'
-                    style="text-align:center"><b>推荐用油：{{carInfo.oil}}</b></td>
+                    style="text-align:center;color:red"><b>推荐用油：{{carInfo.oil}}</b></td>
                 <!-- <td colspan='4'
             style="text-align:center">物料名称：{{carInfo.oil}}</td> -->
 
