@@ -41,7 +41,10 @@
                 <td>用户名：</td>
                 <td>{{carInfo.name}}</td>
                 <td>物料型号：</td>
-                <td>{{carInfo.remain_times}}</td>
+                <td>
+                  <!-- {{carInfo.remain_times}} -->
+                  --
+                </td>
               </tr>
               <tr>
                 <td>联系方式：</td>
