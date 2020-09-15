@@ -34,8 +34,8 @@
               <tr>
                 <td>车型：</td>
                 <td>{{carInfo.type}}</td>
-                <td>物料名称：</td>
-                <td>{{carInfo.oil}}</td>
+                <td>建议保养里程：</td>
+                <td>{{carInfo.km}}</td>
               </tr>
               <tr>
                 <td>用户名：</td>
@@ -59,7 +59,9 @@
               </tr>
               <tr>
                 <td colspan='4'
-                    style="text-align:center">建议保养里程：{{carInfo.km}}</td>
+                    style="text-align:center"><b>推荐用油：{{carInfo.oil}}</b></td>
+                <!-- <td colspan='4'
+            style="text-align:center">物料名称：{{carInfo.oil}}</td> -->
 
               </tr>
             </table>
