@@ -185,7 +185,7 @@
           <el-form-item label="类型"
                         style="margin-bottom: 0;">
             <el-select v-model="type"
-                       @change="reloadData"
+                       @change="filterHandleList"
                        placeholder="请选择"
                        style="width: 100px;">
 
@@ -205,7 +205,7 @@
                             range-separator="-"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            @change="reloadData"
+                            @change="filterHandleList"
                             :picker-options="pickerFastOptions"
                             style="width: 100%;"
                             value-format="yyyy-MM-dd HH:mm:ss">
