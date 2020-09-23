@@ -1,38 +1,76 @@
 <template>
-    <div class="materiel">
-        <div class="viewMain">
-          <div class="tabChange">
-            <div :class="[currentTab==1?'second col-32373C tabActive':'','first col-32373C']" @click="tabChange(1)">未发货</div>
-            <div :class="[currentTab==2?'second col-32373C tabActive':'','first col-32373C']" @click="tabChange(2)">已完成</div>
-          </div>
-          <div class="secondBody" v-show="currentTab == 1">
-            <el-table :data="tableData" :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
-              <el-table-column prop="odd_num" label="订单编号" align="center" ></el-table-column>
-              <el-table-column prop="brand" label="品牌名称" align="center"  ></el-table-column>
-              <el-table-column prop="num" label="数量" align="center" ></el-table-column>
-              <el-table-column prop="name" label="赠品名称" align="center"></el-table-column>
-              <el-table-column prop="standard" label="赠品型号" align="center" ></el-table-column>
-              <el-table-column prop="create_time" label="订单创建时间" align="center"></el-table-column>
-            </el-table>
-            <el-pagination class="page" background layout="prev, pager, next"
-              @current-change="supplyRecord" :current-page.sync="currentPage" :page-count="totalPage" >
-            </el-pagination>
-          </div>
-          <div class="secondBody" v-show="currentTab == 2">
-            <el-table :data="tableData" :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
-              <el-table-column prop="odd_num" label="订单编号" align="center" ></el-table-column>
-              <el-table-column prop="brand" label="品牌名称" align="center"  ></el-table-column>
-              <el-table-column prop="num" label="数量" align="center" ></el-table-column>
-              <el-table-column prop="name" label="赠品名称" align="center"></el-table-column>
-              <el-table-column prop="standard" label="赠品型号" align="center" ></el-table-column>
-              <el-table-column prop="deliver_time" label="发货时间" align="center"></el-table-column>
-            </el-table>
-            <el-pagination class="page" background layout="prev, pager, next"
-              @current-change="supplyRecord" :current-page.sync="currentPage" :page-count="totalPage" >
-            </el-pagination>
-          </div>
-        </div>
+  <div class="materiel">
+    <div class="viewMain">
+      <div class="tabChange">
+        <div :class="[currentTab==1?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(1)">未发货</div>
+        <div :class="[currentTab==2?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(2)">已完成</div>
+      </div>
+      <div class="secondBody"
+           v-show="currentTab == 1">
+        <el-table :data="tableData"
+                  :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
+          <el-table-column prop="odd_num"
+                           label="订单编号"
+                           align="center"></el-table-column>
+          <el-table-column prop="brand"
+                           label="品牌名称"
+                           align="center"></el-table-column>
+          <el-table-column prop="num"
+                           label="数量"
+                           align="center"></el-table-column>
+          <el-table-column prop="name"
+                           label="赠品名称"
+                           align="center"></el-table-column>
+          <el-table-column prop="standard"
+                           label="赠品型号"
+                           align="center"></el-table-column>
+          <el-table-column prop="create_time"
+                           label="订单创建时间"
+                           align="center"></el-table-column>
+        </el-table>
+        <el-pagination class="page"
+                       background
+                       layout="prev, pager, next"
+                       @current-change="supplyRecord"
+                       :current-page.sync="currentPage"
+                       :page-count="totalPage">
+        </el-pagination>
+      </div>
+      <div class="secondBody"
+           v-show="currentTab == 2">
+        <el-table :data="tableData"
+                  :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
+          <el-table-column prop="odd_num"
+                           label="订单编号"
+                           align="center"></el-table-column>
+          <el-table-column prop="brand"
+                           label="品牌名称"
+                           align="center"></el-table-column>
+          <el-table-column prop="num"
+                           label="数量"
+                           align="center"></el-table-column>
+          <el-table-column prop="name"
+                           label="赠品名称"
+                           align="center"></el-table-column>
+          <el-table-column prop="standard"
+                           label="赠品型号"
+                           align="center"></el-table-column>
+          <el-table-column prop="deliver_time"
+                           label="发货时间"
+                           align="center"></el-table-column>
+        </el-table>
+        <el-pagination class="page"
+                       background
+                       layout="prev, pager, next"
+                       @current-change="supplyRecord"
+                       :current-page.sync="currentPage"
+                       :page-count="totalPage">
+        </el-pagination>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import {
@@ -40,7 +78,7 @@ import {
   createGifts
 } from "@/server/serverData";
 export default {
-  data() {
+  data () {
     return {
       currentTab: 1,
       currentPage: 1,
@@ -49,55 +87,55 @@ export default {
     }
   },
   methods: {
-    supplyRecord(p){
-      if(this.currentTab == 1){
+    supplyRecord (p) {
+      if (this.currentTab == 1) {
         this.createGifts(p)
-      }else{
+      } else {
         this.deliverGifts(p)
       }
     },
-    deliverGifts(page = 1){
+    deliverGifts (page = 1) {
       deliverGifts({
         page: page
-      }).then(res=>{
-        if(res.data.code){
+      }).then(res => {
+        if (res.data.code) {
           this.tableData = res.data.data.list;
           this.totalPage = res.data.data.rows;
         }
       })
     },
-    createGifts(page = 1){
-      createGifts({page}).then(res=>{
-        if(res.data.code){
+    createGifts (page = 1) {
+      createGifts({ page }).then(res => {
+        if (res.data.code) {
           this.tableData = res.data.data.list;
           this.totalPage = res.data.data.rows;
         }
       })
     },
-    tabChange(a){
+    tabChange (a) {
       this.currentTab = a;
       this.tableData = [];
       this.currentPage = 1;
-      if(this.currentTab == 1){
+      if (this.currentTab == 1) {
         this.createGifts()
-      }else{
+      } else {
         this.deliverGifts()
       }
     }
 
   },
-  created() {
+  created () {
     this.tabChange(1)
   }
 };
 </script>
 <style lang="scss" scoped>
-
-  /deep/ .el-input-group__append, .el-input-group__prepend{
-           background-color: #3498E9;
-           border: none;
-           color: white;
-         }
+/deep/ .el-input-group__append,
+.el-input-group__prepend {
+  background-color: #3498e9;
+  border: none;
+  color: white;
+}
 .materiel {
   min-height: calc(100vh - 105px);
   background-color: #fff;
@@ -316,5 +354,5 @@ export default {
 }
 .el-breadcrumb__inner.is-link {
   color: #3498e9;
-}
+}                                                                                                           
 </style>

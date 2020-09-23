@@ -68,7 +68,7 @@
 
               </tr>
             </table>
-            <span class="col-32373C">
+            <span class="col-32373C">   
               此卡剩余次数：{{carInfo.remain_times}}次
               <span v-if="carInfo.msgs">（{{carInfo.msgs}}）</span>
 

@@ -3,9 +3,13 @@
     <div class="viewMain">
       <div class="tabChange">
         <div :class="[currentTab==1?'second col-32373C tabActive':'','first col-32373C']"
-             @click="tabChange(1)">库存状态</div>
+             @click="tabChange(1)">油品库存状态</div>
         <div :class="[currentTab==2?'second col-32373C tabActive':'','first col-32373C']"
-             @click="tabChange(2)">补充记录</div>
+             @click="tabChange(2)">油品补充记录</div>
+        <div :class="[currentTab==3?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(3)">机滤/活动产品库存</div>
+        <div :class="[currentTab==4?'second col-32373C tabActive':'','first col-32373C']"
+             @click="tabChange(4)">机滤/活动产品补充记录</div>
       </div>
       <div class="firstBody"
            v-show="currentTab == 1">
@@ -144,6 +148,148 @@
                        :current-page.sync="currentPage"
                        :page-count="totalPage">
         </el-pagination>
+      </div>
+      <div class="firstBody"
+           v-if="currentTab == 3">
+        <div class="oilItem"
+             v-for="(i,index) in FilterData"
+             :key="index">
+          <img :src="i.photo"
+               alt="">
+          <div class="oilDet">
+            <span class="oilName col-32373C">{{i.name}}</span>
+            <table class="detTable">
+              <tr>
+                <td>期初库存</td>
+                <td>{{i.ration}}</td>
+              </tr>
+              <tr>
+                <td>剩余库存</td>
+                <td>{{i.stock}}</td>
+              </tr>
+              <tr>
+                <td>结余</td>
+                <td>{{i.percent}}%</td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div class="secondBody"
+           v-if="currentTab == 4">
+        <el-form class="filterCondition demo-form-inline"
+                 ref="form"
+                 :inline="true"
+                 label-width="80px">
+          <el-form-item label="类型"
+                        style="margin-bottom: 0;">
+            <el-select v-model="type"
+                       @change="reloadData"
+                       placeholder="请选择"
+                       style="width: 100px;">
+
+              <el-option label="机滤"
+                         value="1"></el-option>
+              <el-option label="活动产品"
+                         value="2"></el-option>
+
+            </el-select>
+          </el-form-item>
+          <el-form-item label="申请时间"
+                        style="margin-bottom: 0;width: 520px;margin-left: 30px;">
+            <el-date-picker v-model="intervalTime"
+                            type="daterange"
+                            align="right"
+                            unlink-panels
+                            range-separator="-"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            @change="reloadData"
+                            :picker-options="pickerFastOptions"
+                            style="width: 100%;"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="状态"
+                        style="margin-bottom: 0;">
+            <el-select v-model="status"
+                       @change="filterHandleList"
+                       placeholder="请选择"
+                       style="width: 100px;">
+
+              <el-option label="已发货"
+                         value="1"></el-option>
+              <el-option label="已完成"
+                         value="2"></el-option>
+
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-table :data="filterHandleData"
+                  :header-cell-style="{background: '#D7E1E6',color: '#32373C'}">
+          <el-table-column prop="apply_sn"
+                           label="申请编号"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="create_time"
+                           label="申请时间"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="type"
+                           label="类型"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="audit_status"
+                           label="状态"
+                           align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.audit_status == 0">待发货</span>
+              <span v-if="scope.row.audit_status == 1">已发货</span>
+              <span v-if="scope.row.audit_status == 2">已完成</span>
+              <span v-if="scope.row.audit_status == 3">已取消</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="count_num"
+                           label="补充数量"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="mold"
+                           label="订单类型"
+                           align="center">
+          </el-table-column>
+          <el-table-column prop="reason,id,audit_status,mold"
+                           label="操作"
+                           align="center">
+            <template slot-scope="scope">
+              <el-button type="primary"
+                         size="small"
+                         :disabled='scope.row.audit_status!=1'
+                         @click="goods(scope.row,scope.$index)"
+                         :loading='goodsLoading[scope.$index]'>确认收货</el-button>
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <el-pagination background
+                       class="page"
+                       :page-count="filterTotalPage"
+                       @current-change='filterHandleList'
+                       :current-page.sync='filterPage'
+                       layout="prev,pager,next,jumper,total,->"
+                       :pager-count="5"
+                       small>
+        </el-pagination>
+        <!-- <el-pagination class="page"
+                       background
+                       layout="prev, pager, next"
+                       @current-change="(e)=>{
+                               filterPage = e,
+                               filterHandleList() 
+                           }"
+                       :current-page.sync="filterPage"
+                       :page-count="filterTotalPage">
+        </el-pagination> -->
       </div>
     </div>
     <el-dialog title="补充物料"
@@ -292,7 +438,10 @@ import {
   materialSupplyRecord,
   applyOrderDet,
   cancelMaterialApply,
-  Oilsversion
+  Oilsversion,
+  getFilterElement,
+  getFilterHandleList,
+  FilterGoods
 } from "@/server/serverData";
 export default {
   data () {
@@ -306,7 +455,11 @@ export default {
       //
       oilData: [],
       isLack: [],
-
+      FilterData: [], //机滤列表 
+      filterHandleData: [], //机滤/活动产品补充记录列表
+      filterTotalPage: 0, //机滤/活动产品补充记录总页数
+      filterPage: 0, //机滤/活动产品补充当前页数
+      goodsLoading: [], //收货Loading
       // 列表数据
       currentPage: 1,
       totalPage: 50,
@@ -322,7 +475,8 @@ export default {
       // 筛选条件
       keyword: "",
       intervalTime: "",
-      status: "",
+      status: "1",
+      type: '1',  //机滤/活动产品类型
       // intervalTime: [new Date().getTime() - 3600 * 1000 * 24 * 7, new Date().getTime()],
       pickerFastOptions: {
         shortcuts: [
@@ -357,16 +511,35 @@ export default {
       }
     };
   },
-  computed: {},
+  watch: {
+    filterTotalPage () {   //当对表格数据进行删除时，而且是删除到该页最后一条数据时，当前页面filterPage并不能自动减1，也就是说，当前页filterPage只有你点击页码时才会发生改变，这就会使你自定义的序号错乱。但是我们可以使用watch监听页面数据总条数filterTotalPage，来解决这个问题
+      if (this.filterTotalPage > 0) {
+        this.filterPage -= 1
+        this.filterHandleList()
+      }
+    }
+  },
   methods: {
     tabChange (tab) {
       this.currentTab = tab;
-      if (tab == 1) {
-        this.getMaterial();
-      } else {
-        this.supplyRecord();
+      this.filterPage = 1
+      switch (tab) {
+        case 1:
+          this.getMaterial();
+          break;
+        case 2:
+          this.supplyRecord();
+          break;
+        case 3:
+          this.getFilterList();
+          break;
+        case 4:
+          this.filterHandleList();
+          break;
       }
+
     },
+
     reloadData () {
       this.supplyRecord();
     },
@@ -417,6 +590,22 @@ export default {
         });
       }
     },
+    async getFilterList () {  //获取滤芯列表
+      try {
+        let res = await getFilterElement();
+        if (res.data.code == 1) {
+          this.FilterData = res.data.data;
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: "warning"
+          });
+        }
+      } catch (error) {
+        throw (error)
+      }
+    },
+
     async materialWarn () {
       let res = await materialIsLack();
       if (res.data.code == 1) {
@@ -518,6 +707,54 @@ export default {
           type: "warning"
         });
       }
+    },
+    async filterHandleList () {  //获取机滤/活动产品补充记录
+      let startTime, endTime;
+      if (this.intervalTime && this.intervalTime[0] && this.intervalTime[1]) {
+        startTime = this.intervalTime[0];
+        endTime = this.intervalTime[1];
+      } else {
+        startTime = "";
+        endTime = "";
+      }
+      this.$nextTick(() => {
+        console.log(this.filterPage, '分页')
+      })
+      let res = await getFilterHandleList(
+        this.filterPage,
+        this.type,
+        startTime,
+        endTime,
+        this.status,
+      );
+      this.filterHandleData = res.data.data.list || [];
+      this.filterTotalPage = res.data.data.rows || 1;
+    },
+    goods (item, index) {  //机滤/活动产品补充记录-确认收货
+      this.$confirm('是否确认收货 ?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          this.goodsLoading[index] = true
+          const res = await FilterGoods({
+            id: item.id,     //订单ID
+            sid: item.sid,   //维修厂ID
+            sm_id: item.sm_id,  //供应商ID
+          })
+          this.goodsLoading[index] = false
+          if (res.data.code == 1) {
+            this.$message({ message: res.data.msg, type: 'success' })
+            this.filterHandleList()
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        } catch (error) {
+          this.goodsLoading[index] = false
+          throw (error)
+        }
+      }).catch(() => { });
     },
     async cancelApply () {
       console.log(this.seasonId)

@@ -112,7 +112,7 @@
           <!-- <el-table-column prop="remain_times" label="状态" align="center">
                 <template slot-scope="scope">
 
-                </template>
+                </template> 
               </el-table-column> -->
         </el-table>
 

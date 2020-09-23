@@ -501,6 +501,23 @@ export const applyOrderDet = (id) => post('mate/detail', {
     id: id
 })
 
+//邦保养-物料管理-机滤/活动产品库存
+export const getFilterElement = (data) => post('Filter/filterList', data)
+
+
+//邦保养-物料管理-机滤/活动产品补充记录
+export const getFilterHandleList = (page, type, startTime, endTime, status) => post('Filter/filterHandleList', {
+    page,
+    type,
+    start_time: startTime,
+    end_time: endTime,
+    status
+})
+
+//邦保养-物料管理-机滤/活动产品补充记录-确认收货
+export const FilterGoods = (data) => post('Filter/filterHandle', data)
+
+
 //export const getAllMember = () => post('main/getUsers')
 // 邦保养-车主管理
 export const getFilterMember = (page, key, cardType, startTime, endTime, status) => post('main/searchUsers', {
