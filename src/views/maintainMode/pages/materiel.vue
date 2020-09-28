@@ -304,14 +304,14 @@
           <tr>
             <th>物料名称</th>
             <th>物料缺失状态(升)</th>
-            <th>选择型号</th>
+            <!-- <th>选择型号</th> -->
             <th>申请数量(升)</th>
           </tr>
           <tr v-for="(item,index) in isLack"
               :key="index">
             <td>{{item.materiel}}</td>
             <td>{{item.num}}</td>
-            <td>
+            <!-- <td>
               <el-select v-model="materiel_id[index]"
                          v-if="item.materiel_id==4">
                 <el-option v-for="(item,index) in modelList"
@@ -319,7 +319,7 @@
                            :label="item.name"
                            :value="item.id"></el-option>
               </el-select>
-            </td>
+            </td> -->
             <td>
               <span>粘度20 :</span>
               <el-select v-model="item.val20"
@@ -651,11 +651,11 @@ export default {
         let temp = obj[i],
           enter = {};
         enter.num = temp.num;
-        enter.materiel_id = temp.materiel_id == 4 ? this.materiel_id[i] : temp.materiel_id;
+        enter.materiel_id =  temp.materiel_id;
         let materielIndex = this.modelList.findIndex(item => {
           return item.id == this.materiel_id[i]
         })
-        enter.materiel = temp.materiel_id == 4 ? this.modelList[materielIndex].name : temp.materiel;
+        enter.materiel = temp.materiel;
         if (temp.materiel_id != 7) {
           enter.remarks = "粘度20：" + temp.val20 + "升，" +
             "粘度30：" + temp.val30 + "升，粘度40：" + temp.val40 + "升";
