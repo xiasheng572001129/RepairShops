@@ -218,9 +218,12 @@ export default {
               duration: 1000,
               onClose () {
                 let action = JSON.stringify(res.data.data.action.msg);
+                let activiyLog = JSON.stringify(res.data.data.activiyLog, 'activiyLog')  //活动文字滚动条
                 window.sessionStorage.setItem("action", action);
                 window.sessionStorage.setItem("token", res.data.data.token);
                 window.sessionStorage.setItem("sid", res.data.data.sid); //维修厂id
+
+                window.sessionStorage.setItem("activiyLog", activiyLog); //活动文字滚动条
                 window.sessionStorage.setItem(
                   "username",
                   res.data.data.shop_name

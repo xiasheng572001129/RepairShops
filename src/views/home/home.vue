@@ -4,8 +4,17 @@
       <heaDer></heaDer>
     </header>
     <section class="section">
+      <div class="text_scrollBar"
+           v-if="activiyLog.actiy_code==1">
+        <marquee behavior="scroll"
+                 direction="left"
+                 class="marquee">
+          {{activiyLog.actiy_msg}}
+        </marquee>
+      </div>
       <mainBar></mainBar>
     </section>
+
     <div class="Tips">
       <p>
         {{activity.con}}
@@ -132,7 +141,8 @@ export default {
         title: ""
       },
       radio: '1',
-      upgrade: {}
+      upgrade: {},
+      activiyLog: JSON.parse(window.sessionStorage.getItem('activiyLog')),   //活动文字滚动条
     };
   },
   components: {
@@ -156,6 +166,7 @@ export default {
     }
   },
   methods: {
+
     text1_read () {
       this.text1 = {
         content: "",
@@ -319,11 +330,7 @@ export default {
   },
 
   mounted () {
-
     this.init();
-    this.$nextTick(() => {
-      console.log(this.phoneList);
-    });
     this.activationCode()
     this.materiel();
     if (this.$route.params.shop_type == 2) {
@@ -347,6 +354,7 @@ export default {
     else
       this.actShow = true;
   },
+
   // beforeRouteEnter(to, from, next){
   //   console.log(to)
   //   console.log(from)
@@ -437,6 +445,18 @@ export default {
   .section {
     height: calc(100% - 110px);
     overflow: auto;
+    position: relative;
+    .text_scrollBar {
+      position: absolute;
+      width: 100%;
+      top: 30px;
+      text-align: center;
+      .marquee {
+        color: red;
+        font-size: 20px;
+        letter-spacing: 8px;
+      }
+    }
   }
   p {
     margin-bottom: 15px;
