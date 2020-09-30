@@ -68,7 +68,7 @@
 
               </tr>
             </table>
-            <span class="col-32373C">   
+            <span class="col-32373C">
               此卡剩余次数：{{carInfo.remain_times}}次
               <span v-if="carInfo.msgs">（{{carInfo.msgs}}）</span>
 
@@ -561,24 +561,31 @@ export default {
       }
     },
     // 提交服务表单
-    async submitForm () {
-      let form = this.form,
-        carInfo = this.carInfo;
-      let fomrData =
-        qs.stringify({ ...form }) + "&" + qs.stringify({ ...carInfo }) + "&" + qs.stringify({ oil_photo: this.oil_photo && this.oil_photo.length > 0 ? this.oil_photo : '' });
-      this.submitLoading = true
-      let res = await submitServeForm(qs.parse(fomrData));
-      this.submitLoading = false
-      if (res.data.code == 1) {
-        this.dialogVisible = true;
-        this.Tips = res.data.msg
-        this.oil_photo = []
-      } else {
-        this.$message({
-          message: res.data.msg,
-          type: "warning"
-        });
-      }
+     submitForm () {
+      this.$confirm('是否提交?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let form = this.form,
+          carInfo = this.carInfo;
+        let fomrData =
+          qs.stringify({ ...form }) + "&" + qs.stringify({ ...carInfo }) + "&" + qs.stringify({ oil_photo: this.oil_photo && this.oil_photo.length > 0 ? this.oil_photo : '' });
+        this.submitLoading = true
+        let res = await submitServeForm(qs.parse(fomrData));
+        this.submitLoading = false
+        if (res.data.code == 1) {
+          this.dialogVisible = true;
+          this.Tips = res.data.msg
+          this.oil_photo = []
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: "warning"
+          });
+        }
+      }).catch(() => { });
+
     },
     // 服务完成后
     complate () {
