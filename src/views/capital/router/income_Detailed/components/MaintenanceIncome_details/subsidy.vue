@@ -7,7 +7,7 @@
                         <el-button slot="append" @click='search()'>搜索</el-button>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="补贴时间">
+                <el-form-item label="保养时间">
                     <el-date-picker  type="daterange" align="right" unlink-panels range-separator="-"
                                      start-placeholder="开始日期" end-placeholder="结束日期" @change="search()"
                                      style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"  v-model='form.date' >
@@ -23,7 +23,7 @@
                 <el-table-column prop="type" label="车型"   align="center"></el-table-column>
                 <el-table-column prop="phone" label="联系方式"  align="center"></el-table-column>
                 <el-table-column prop="filter" label="补贴费(元)"  align="center"></el-table-column>
-                <el-table-column prop="create_time" label="补贴时间"  align="center"></el-table-column>
+                <el-table-column prop="create_time" label="保养时间"  align="center"></el-table-column>
             </el-table>
         </div>
         <div class='total'>
