@@ -80,7 +80,7 @@
           <div class="ic">
             <img src="@/assets/obd/pztx.png">
           </div>
-          <div class="wz">索客提醒</div>
+          <div class="wz">锁客提醒</div>
           <div v-if="routercur=='put'"
                class="arrows">
             <img src="@/assets/images/right.png">

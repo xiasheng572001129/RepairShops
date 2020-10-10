@@ -561,7 +561,7 @@ export default {
       }
     },
     // 提交服务表单
-     submitForm () {
+    submitForm () {
       this.$confirm('是否提交?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -755,7 +755,6 @@ export default {
         this.fileList = this.PolicyList.pc_img.map(item => {
           return { url: item }
         })
-        console.log(this.fileList)
         this.openUpload()
       })
     },

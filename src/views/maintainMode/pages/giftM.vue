@@ -354,5 +354,5 @@ export default {
 }
 .el-breadcrumb__inner.is-link {
   color: #3498e9;
-}                                                                                                           
+}
 </style>
