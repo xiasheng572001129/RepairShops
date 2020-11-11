@@ -5,35 +5,48 @@
         <img src="@/assets/images/logo.png">
       </div>
       <div class>仲达集团-WDA维修厂管理系统</div>
-      <div class="ubidate" v-if="status == 2">
+      <div class="ubidate"
+           v-if="status == 2">
         <!-- <div class="ubilabel">车管家服务店</div> -->
         <div class="ubivalue">
           <!-- <span style="padding:0 20px">有效期</span> -->
-          <div class="col-line" v-for="item in days">{{item}}</div>
+          <div class="col-line"
+               v-for="(item,index) in days"
+               :key="index">{{item}}</div>
           <div class="col-line">天</div>
         </div>
+
+      </div>
+      <div>
+        <el-button style="margin-left:20px"
+                   size="small"
+                   type="success"
+                   @click="upgradeStorefront()">升级事故车维修店面</el-button>
       </div>
     </div>
     <div class="right">
       <ul>
         <li v-show="isShow">
-          <a href="javascript:;" @click="$router.go(-1)">返回上一页</a>
+          <a href="javascript:;"
+             @click="$router.go(-1)">返回上一页</a>
           <router-link to="/home">返回首页</router-link>
         </li>
-        <li v-show="!news" class="news">
+        <li v-show="!news"
+            class="news">
           <img src="@/assets/images/news.png">
-          <el-badge is-dot class="item" :hidden="!newsData"></el-badge>
+          <el-badge is-dot
+                    class="item"
+                    :hidden="!newsData"></el-badge>
           <div class="news_details">
-            <div
-              class="tabBar"
-              v-for="(item,index) of newsList"
-              :class="{active:cur==index}"
-              @click="cur=index,newsDetails(index)"
-            >{{item}}</div>
+            <div class="tabBar"
+                 v-for="(item,index) of newsList"
+                 :class="{active:cur==index}"
+                 @click="cur=index,newsDetails(index)">{{item}}</div>
             <component :is="current"></component>
           </div>
         </li>
-        <li class="border" v-show="!news"></li>
+        <li class="border"
+            v-show="!news"></li>
         <li class>
           <el-dropdown>
             <span class="el-dropdown-link">
@@ -54,7 +67,8 @@
                 <router-link to="/feedback">反馈</router-link>
               </el-dropdown-item>
               <el-dropdown-item>
-                <a href="javascript:;" @click="log_out">退出</a>
+                <a href="javascript:;"
+                   @click="log_out">退出</a>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -66,10 +80,10 @@
 <script>
 import news from "@/views/common/news";
 import system_news from "@/views/common/system_news";
-import { msgStatus } from "@/server/serverData";
+import { msgStatus, perfectRepair } from "@/server/serverData";
 
 export default {
-  data() {
+  data () {
     return {
       newsData: "",
       newsList: ["消息", "系统消息"],
@@ -78,19 +92,19 @@ export default {
     };
   },
   computed: {
-    username() {
+    username () {
       return window.sessionStorage.getItem("username");
     },
-    shop_type() {
+    shop_type () {
       return window.sessionStorage.getItem("shop_type");
     },
-    days() {
+    days () {
       let day = window.sessionStorage.getItem("days");
       if (day) {
         return window.sessionStorage.getItem("days").split(",");
       }
     },
-    status() {
+    status () {
       console.log(
         "this.$store.state.shop_status",
         this.$store.state.shop_status
@@ -104,7 +118,7 @@ export default {
   },
   props: ["isShow", "news"],
   methods: {
-    log_out() {
+    log_out () {  //退出系统
       this.$confirm("确定要退出该系统吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -120,9 +134,9 @@ export default {
           this.$notify.closeAll();
           this.$router.push("/login");
         })
-        .catch(() => {});
+        .catch(() => { });
     },
-    async init() {
+    async init () {
       try {
         /** 是否有消息或者系统消息 **/
         let res = await msgStatus();
@@ -133,11 +147,34 @@ export default {
         console.log(err);
       }
     },
-    newsDetails(index) {
+    newsDetails (index) {
       this.current = index == 0 ? "news" : "system_news";
+    },
+    upgradeStorefront () {  //升级事故车维修店面
+      this.$confirm('是否升级事故车维修店面?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          const res = await perfectRepair({
+            proof: '',
+            shop_photo: ''
+          })
+          if (res.data.code == 1) {
+            this.$message({ message: res.data.msg, type: 'success' })
+            this.init()
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        } catch (error) {
+          this.$message.error('接口报错,请检查')
+          throw (error)
+        }
+      }).catch(() => { });
     }
   },
-  mounted() {
+  mounted () {
     this.init();
   }
 };

@@ -78,7 +78,7 @@
         <li @click="routerto('put')"
             :class="{'cur':routercur=='put'}">
           <div class="ic">
-            <img src="@/assets/obd/pztx.png">
+            <img src="@/assets/obd/pztx.png"> 
           </div>
           <div class="wz">维修提醒</div>
           <div v-if="routercur=='put'"
@@ -87,12 +87,12 @@
           </div>
           <!-- <img src="../../assets/obd/pftx.png">
           <span>排放提醒</span>-->
-          <em v-if="collRem>0">
+          <em v-if="collRem>0"> 
             <el-badge :value="collRem"
                       :max='99'
                       class="item"></el-badge>
           </em>
-        </li>
+        </li>   
         <li @click="routerto('ckt')"
             :class="{'cur':routercur=='ckt'}">
           <div class="ic">
@@ -178,7 +178,7 @@ export default {
       depotname: "",
       routercur: location.href.split("/").pop(),
       showhelp: false,
-      helpdoc: ""
+      helpdoc: ""   
     };
   },
   mounted () {

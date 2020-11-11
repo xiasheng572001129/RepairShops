@@ -216,6 +216,9 @@ export const unreadMsg = () => post('SystemMsg/unreadMsg')
 /** 已读 **/
 export const unreaLock = (data) => post('SystemMsg/unreaLock', data)
 
+/** 升级事故车维修店面 **/
+export const perfectRepair = (data) => post('Account/perfectRepair', data)
+
 /**
  * 是否补充物料
  */

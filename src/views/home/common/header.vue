@@ -7,13 +7,17 @@
             <img src="../images/logo.png">
           </div>
           <div>仲达集团-维修厂管理系统</div>
-          <div class="ubidate" v-if="shop_type == 2">
+          <div class="ubidate"
+               v-if="shop_type == 2">
             <div class="ubilabel">车管家服务店</div>
             <div class="ubivalue">
-              <div class="col-line" v-for="item in days">{{item}}</div>
+              <div class="col-line"
+                   v-for="(item,index) in days"
+                   :key="index">{{item}}</div>
               <div class="col-line"></div>
             </div>
           </div>
+
         </div>
       </el-col>
       <el-col :span="12">
@@ -85,14 +89,14 @@
 //   未使用此页
 export default {
   name: "header",
-  data() {
+  data () {
     return {};
   },
   computed: {
-    shop_type() {
+    shop_type () {
       return window.sessionStorage.getItem("shop_type");
     },
-    days() {
+    days () {
       let day = window.sessionStorage.getItem("days");
       if (day) {
         return window.sessionStorage.getItem("days").split(",");

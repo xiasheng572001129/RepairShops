@@ -1,34 +1,74 @@
 <template>
-    <div class='dataAnalysis'>
-        <header class='header'>
-          <Head :isShow='true'></Head>
-        </header>
-        <div class="dataMain">
-          <span class="help">
-             <el-tooltip class="item" effect="dark" content="遇到问题 ？点击查看帮助文档" placement="left">
-                   <el-button type='text' @click='file'>帮助文档</el-button>
-               </el-tooltip>
-          </span>
-          <div class="dataHead" >数据分析</div>
-          <div class="dataBody">
-            <img class="topImg leftImg" src="./images/leftTop.png" alt="">
-            <img class="bottomImg leftImg" src="./images/leftBottom.png" alt="">
-            <img class="topImg rightImg" src="./images/rightTop.png" alt="">
-            <img class="bottomImg rightImg" src="./images/rightBottom.png" alt="">
-            <span class="dataTitle">{{currentDate}}</span>
-            <el-row class="fourBox" :gutter="10">
-              <el-col :span="6"><div class="gridItem "><squareData @select="sqrSelect1" :sqrData='sqr1Data' :sname="s1Name"></squareData></div></el-col>
-              <el-col :span="6"><div class="gridItem "><squareData @select="sqrSelect2" :sqrData='sqr2Data' :sname="s2Name"></squareData></div></el-col>
-              <el-col :span="6"><div class="gridItem "><squareData @select="sqrSelect3" :sqrData='sqr3Data' :sname="s3Name"></squareData></div></el-col>
-              <el-col :span="6"><div class="gridItem "><squareData @select="sqrSelect4" :sqrData='sqr4Data' :sname="s4Name"></squareData></div></el-col>
-            </el-row>
-            <router-view/>
-          </div>
-        </div>
-      <div style='display: none' ref='laybox' class='doc-laybox'>
-        <div v-html='laycontent'></div>
+  <div class='dataAnalysis'>
+    <header class='header'>
+
+      <Head :isShow='true'></Head>
+    </header>
+    <div class="dataMain">
+      <span class="help">
+        <el-tooltip class="item"
+                    effect="dark"
+                    content="遇到问题 ？点击查看帮助文档"
+                    placement="left">
+          <el-button type='text'
+                     @click='file'>帮助文档</el-button>
+        </el-tooltip>
+      </span>
+      <div class="dataHead">数据分析</div>
+      <div class="dataBody">
+        <img class="topImg leftImg"
+             src="./images/leftTop.png"
+             alt="">
+        <img class="bottomImg leftImg"
+             src="./images/leftBottom.png"
+             alt="">
+        <img class="topImg rightImg"
+             src="./images/rightTop.png"
+             alt="">
+        <img class="bottomImg rightImg"
+             src="./images/rightBottom.png"
+             alt="">
+        <span class="dataTitle">{{currentDate}}</span>
+        <el-row class="fourBox"
+                :gutter="10">
+          <el-col :span="6">
+            <div class="gridItem ">
+              <squareData @select="sqrSelect1"
+                          :sqrData='sqr1Data'
+                          :sname="s1Name"></squareData>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="gridItem ">
+              <squareData @select="sqrSelect2"
+                          :sqrData='sqr2Data'
+                          :sname="s2Name"></squareData>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="gridItem ">
+              <squareData @select="sqrSelect3"
+                          :sqrData='sqr3Data'
+                          :sname="s3Name"></squareData>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="gridItem ">
+              <squareData @select="sqrSelect4"
+                          :sqrData='sqr4Data'
+                          :sname="s4Name"></squareData>
+            </div>
+          </el-col>
+        </el-row>
+        <router-view />
       </div>
     </div>
+    <div style='display: none'
+         ref='laybox'
+         class='doc-laybox'>
+      <div v-html='laycontent'></div>
+    </div>
+  </div>
 
 </template>
 <script>
@@ -42,10 +82,10 @@ import {
   file
 } from "@/server/serverData";
 export default {
-  data() {
+  data () {
     return {
-      currentDate:'',
-      laycontent:'',
+      currentDate: '',
+      laycontent: '',
       sqr1Data: { total: 0, detail: { count: 0, percent: 0 } },
       s1Name: {
         title1: "总收入(元)",
@@ -94,29 +134,29 @@ export default {
   },
   methods: {
     /** 打开帮助文档 **/
-   async file(){
+    async file () {
       try {
         let res = await file({
-          d_id:209
+          d_id: 209
         })
-        if(res.code==1){
-          this.laycontent=window.etos(res.data.content);
+        if (res.code == 1) {
+          this.laycontent = window.etos(res.data.content);
         }
         layer.open({
-          type:1,
-          title:'帮助文档',
-          content:jQuery('.doc-laybox')
+          type: 1,
+          title: '帮助文档',
+          content: jQuery('.doc-laybox')
         })
-      }catch (err){
+      } catch (err) {
         console.log(err)
       }
     },
     // 总收入
-    async sqrSelect1(number) {
+    async sqrSelect1 (number) {
       let res = await getTablePricD(number);
       if (res.data.code == 1) {
         this.sqr1Data = res.data.data;
-        this.currentDate=res.data.data.date
+        this.currentDate = res.data.data.date
         if (number == 1) {
           this.s1Name.title2 = "今日收入(元)";
           this.s1Name.title3 = "昨日";
@@ -135,7 +175,7 @@ export default {
       }
     },
     // 关注度
-    async sqrSelect2(number) {
+    async sqrSelect2 (number) {
       let res = await attentShareD(number);
       if (res.data.code == 1) {
         this.sqr2Data = res.data.data;
@@ -157,7 +197,7 @@ export default {
       }
     },
     // 总购卡
-    async sqrSelect3(number) {
+    async sqrSelect3 (number) {
       let res = await cardShareD(number);
       if (res.data.code == 1) {
         this.sqr3Data = res.data.data;
@@ -179,7 +219,7 @@ export default {
       }
     },
     // 物料消耗
-    async sqrSelect4(number) {
+    async sqrSelect4 (number) {
       let res = await shareD(number);
       if (res.data.code == 1) {
         this.sqr4Data = res.data.data;
@@ -201,7 +241,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.sqrSelect1();
     this.sqrSelect2();
     this.sqrSelect3();
@@ -240,9 +280,9 @@ export default {
       opacity: 0.7;
       cursor: pointer;
       font-size: 12px;
-      /deep/ .el-button--text{
-                color: #fff;
-             }
+      /deep/ .el-button--text {
+        color: #fff;
+      }
     }
     .dataHead {
       margin-top: 50px;
@@ -309,14 +349,13 @@ export default {
     }
   }
 }
-
 </style>
 <style scoped>
-.el-dropdown-menu{
+.el-dropdown-menu {
   background-color: rgba(0, 48, 85, 0.8);
   border: 1px solid rgba(0, 48, 85, 0.8);
 }
-.el-dropdown-menu__item{
+.el-dropdown-menu__item {
   color: #fff;
 }
 .el-dropdown-menu__item:focus,
@@ -332,16 +371,15 @@ export default {
 }
 </style>
 <style>
-  .layui-layer{
-    width: 100% !important;
-    height: 100%;
-
-  }
-  .layui-layer-content{
-    margin-left: 10%;
-    text-align: left;
-  }
-  .layui-layer-title{
-    text-align: center;
-  }
+.layui-layer {
+  width: 100% !important;
+  height: 100%;
+}
+.layui-layer-content {
+  margin-left: 10%;
+  text-align: left;
+}
+.layui-layer-title {
+  text-align: center;
+}
 </style>
