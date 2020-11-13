@@ -10,6 +10,10 @@
                            label="车牌号"
                            align="center">
           </el-table-column>
+          <el-table-column prop="sale_time"
+                           label="申请保养时间"
+                           align="center">
+          </el-table-column>
           <el-table-column prop="company"
                            label="保险公司"
                            align="center">
@@ -361,7 +365,7 @@ export default {
         let arr = [license, plate, policy]
         arr.forEach(item => {
           new Viewer(item)
-        }) 
+        })
       })
     },
     Modify (item) {  //修改保单
