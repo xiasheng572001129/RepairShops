@@ -36,7 +36,7 @@
               </div>
               <div class="border_clear jump">
                 <!--<a href="javascript:;" @click="register">注册</a>-->
-                <a href="https://xmp.ctbls.com/uploads/Gift/20180823/weixiuchang.docx">下载协议</a>
+                <!-- <a href="https://xmp.ctbls.com/uploads/Gift/20180823/weixiuchang.docx">下载协议</a> -->
                 <router-link to="/Reset_Password">忘记密码</router-link>
               </div>
             </div>

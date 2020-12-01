@@ -172,6 +172,11 @@
                 <td>{{i.percent}}%</td>
               </tr>
             </table>
+            <div class="supplement">
+              <el-button type="primary"
+                         v-if='FilterData[0].warning_status==1'
+                         @click="ApplySupplement()">申请补充</el-button>
+            </div>
           </div>
 
         </div>
@@ -292,6 +297,7 @@
         </el-pagination> -->
       </div>
     </div>
+    <!-- 油品库存申请补充 -->
     <el-dialog title="补充物料"
                :visible.sync="supplyDialogVisible"
                width="1000px"
@@ -362,6 +368,47 @@
         <el-button class="supplySubmit"
                    type="primary"
                    @click="applyMaterial">立即申请</el-button>
+      </el-form>
+    </el-dialog>
+    <!-- 机滤库存申请补充 -->
+    <el-dialog title="补充物料"
+               :visible.sync="filterSupplyDialogVisible"
+               width="1000px"
+               center>
+      <el-form class="supplyDialogBox demo-form-inline"
+               ref="form"
+               :inline="true"
+               label-width="70px">
+        <table class="applyTable">
+          <tr>
+            <th>供应商名称</th>
+            <th>供应商电话</th>
+            <!-- <th>选择型号</th> -->
+            <th>申请数量(个)</th>
+          </tr>
+          <tr v-for="(item,index) in applyFilterList"
+              :key="index">
+            <td>{{item.sm_name}}</td>
+            <td>{{item.sm_phone}}</td>
+            <td>{{item.surplus_num}}</td>
+            <!-- <td>
+              <el-select v-model="materiel_id[index]"
+                         v-if="item.materiel_id==4">
+                <el-option v-for="(item,index) in modelList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </td> -->
+            <td>
+
+            </td>
+          </tr>
+        </table>
+        <span class="col-FF2828">以上物料库存量不足，请点击相应物料进行申请！</span>
+        <el-button class="supplySubmit"
+                   type="primary"
+                   @click="filterApplyMaterial(applyFilterList[0])">立即申请</el-button>
       </el-form>
     </el-dialog>
     <el-dialog class=""
@@ -441,7 +488,9 @@ import {
   Oilsversion,
   getFilterElement,
   getFilterHandleList,
-  FilterGoods
+  FilterGoods,
+  getApplyFilter,
+  getApplyHandle
 } from "@/server/serverData";
 export default {
   data () {
@@ -450,12 +499,14 @@ export default {
       supplyDetDialogVisible: false,
       withdrawDialogVisible: false,
       previewDialogVisible: false,
+      filterSupplyDialogVisible: false, //机滤申请补充物料弹框显示状态
       currentTab: 1,
       seasonId: '',
       //
       oilData: [],
       isLack: [],
       FilterData: [], //机滤列表 
+      applyFilterList: [], //机滤申请补充列表
       filterHandleData: [], //机滤/活动产品补充记录列表
       filterTotalPage: 0, //机滤/活动产品补充记录总页数
       filterPage: 0, //机滤/活动产品补充当前页数
@@ -532,6 +583,7 @@ export default {
           break;
         case 3:
           this.getFilterList();
+
           break;
         case 4:
           this.filterHandleList();
@@ -605,6 +657,39 @@ export default {
         throw (error)
       }
     },
+    async ApplySupplement () {   //滤芯申请补充列表
+      let res = await getApplyFilter();
+      if (res.data.code == 1) {
+        this.filterSupplyDialogVisible = true;
+        this.applyFilterList = [res.data.data];
+        // this.oilsversion()
+      } else {
+        this.$message({
+          message: res.data.msg,
+          type: "warning"
+        });
+      }
+    },
+
+    async filterApplyMaterial (item) {  //滤芯确认申请补充
+      console.log(item)
+      try {
+        const res = await getApplyHandle({
+          sid: item.sid,  //维修厂ID
+          sm_id: item.sm_id,  //供应商ID
+          surplus_num: item.surplus_num //申请数量
+        })
+        if (res.data.code == 1) {
+          this.$message({ message: res.data.msg, type: 'success' })
+          this.filterSupplyDialogVisible = false
+          this.getFilterList()
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      } catch (error) {
+        throw (error)
+      }
+    },
 
     async materialWarn () {
       let res = await materialIsLack();
@@ -651,7 +736,7 @@ export default {
         let temp = obj[i],
           enter = {};
         enter.num = temp.num;
-        enter.materiel_id =  temp.materiel_id;
+        enter.materiel_id = temp.materiel_id;
         let materielIndex = this.modelList.findIndex(item => {
           return item.id == this.materiel_id[i]
         })
@@ -780,6 +865,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.supplement {
+  margin: 20px 0;
+}
 /deep/ .el-input-group__append,
 .el-input-group__prepend {
   background-color: #3498e9;
