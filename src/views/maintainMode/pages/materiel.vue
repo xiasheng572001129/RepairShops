@@ -742,8 +742,8 @@ export default {
         })
         enter.materiel = temp.materiel;
         if (temp.materiel_id != 7) {
-          enter.remarks = "粘度20：" + temp.val20 + "升，" +
-            "粘度30：" + temp.val30 + "升，粘度40：" + temp.val40 + "升";
+          enter.remarks = "粘度20：" + temp.val20 + "L，" +
+            "粘度30：" + temp.val30 + "L，粘度40：" + temp.val40 + "L";
         } else {
           enter.remarks = temp.remarks;
         }
