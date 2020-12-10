@@ -65,9 +65,6 @@
                 }
             }
         },
-        computed:{
-
-        },
         mounted(){
             this.firstInput()
             var that=this
