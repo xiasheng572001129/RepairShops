@@ -204,7 +204,7 @@ import 'viewerjs/dist/viewer.css';
 export default {
   data () {
     return {
-      token: window.sessionStorage.getItem('token'),
+      token: window.localStorage.getItem('token'),
       currentPage: 1, //当前页
       pageCount: 1, //总页数
       tableData: [],

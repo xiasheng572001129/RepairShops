@@ -3,7 +3,9 @@
     <div class="content">
       <h2>请选择</h2>
       <div class="from">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="form"
+                 :model="form"
+                 label-width="80px">
           <!-- 不要列表形式 -->
           <!-- <el-form-item>
             <el-radio label="1" v-model="form.shop_type">注册《邦保养》加盟店</el-radio>
@@ -18,13 +20,18 @@
               <img src="../public/login/ubiopt.png" alt>
               <span>注册《车托邦》主题活动店</span>
             </div> -->
-            <div :class="form.shop_type == 1 ? 'selected' : ''" @click="form.shop_type = 1;">
-              <img src="../public/login/bbyopt.png" alt>
+            <div :class="form.shop_type == 1 ? 'selected' : ''"
+                 @click="form.shop_type = 1;">
+              <img src="../public/login/bbyopt.png"
+                   alt>
               <span>注册《邦保养》智能连锁店</span>
             </div>
           </div>
           <el-form-item class="clear_border">
-            <el-button type="primary" :disabled="!form.shop_type" @click="next" class="next">下一步</el-button>
+            <el-button type="primary"
+                       :disabled="!form.shop_type"
+                       @click="next"
+                       class="next">下一步</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -34,7 +41,7 @@
 <script>
 export default {
   name: "registerAccount",
-  data() {
+  data () {
     return {
       form: {
         shop_type: ""
@@ -43,8 +50,8 @@ export default {
   },
   methods: {
     /** 点击下一步将选择的店铺类型存到缓存 **/
-    next() {
-      window.sessionStorage.setItem("shop_type", this.form.shop_type);
+    next () {
+      window.localStorage.setItem("shop_type", this.form.shop_type);
       this.$router.push({ path: "/register" });
     }
   }

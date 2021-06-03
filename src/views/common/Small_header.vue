@@ -6,13 +6,17 @@
     <div class="right">
       <ul>
         <li>
-          <a href="javascript:;" @click="$router.go(-1)">返回上一页</a>
+          <a href="javascript:;"
+             @click="$router.go(-1)">返回上一页</a>
           <router-link to="/home">返回首页</router-link>
         </li>
         <li>
           <router-link to="/news">
-            <img src="@/assets/images/news.png" class="news">
-            <el-badge is-dot class="item" v-show="newsData"></el-badge>
+            <img src="@/assets/images/news.png"
+                 class="news">
+            <el-badge is-dot
+                      class="item"
+                      v-show="newsData"></el-badge>
           </router-link>
         </li>
         <li class="border"></li>
@@ -26,13 +30,14 @@
               <router-link to="/modify_password">修改密码</router-link>
             </p>
             <!--<p>-->
-              <!--<router-link to="/abolish">取消合作</router-link>-->
+            <!--<router-link to="/abolish">取消合作</router-link>-->
             <!--</p>-->
             <p>
               <router-link to="/feedback">反馈</router-link>
             </p>
             <p>
-              <a href="javascript:;" @click="log_out">退出</a>
+              <a href="javascript:;"
+                 @click="log_out">退出</a>
             </p>
           </div>
         </li>
@@ -43,14 +48,14 @@
 <script>
 import { msgStatus } from "@/server/serverData";
 export default {
-  data() {
+  data () {
     return {
       newsData: "",
-      name: window.sessionStorage.getItem("username")
+      name: window.localStorage.getItem("username")
     };
   },
   methods: {
-    log_out() {
+    log_out () {
       this.$confirm("确定要退出该系统吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -61,19 +66,19 @@ export default {
             type: "success",
             message: "退出成功",
             duration: 2000,
-            onClose() {
-              // window.sessionStorage.removeItem("materielState");
-              // window.sessionStorage.removeItem("token");
-              // window.sessionStorage.removeItem("username");
-               window.sessionStorage.clear()
+            onClose () {
+              // window.localStorage.removeItem("materielState");
+              // window.localStorage.removeItem("token");
+              // window.localStorage.removeItem("username");
+              window.localStorage.clear()
             }
           });
           this.$router.push("/login");
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     /** 获取系统消息 **/
-    async Systemnews() {
+    async Systemnews () {
       try {
         let res = await msgStatus();
         if (res.data.code == 1) {
@@ -84,7 +89,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.Systemnews();
   }
 };

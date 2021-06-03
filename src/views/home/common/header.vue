@@ -94,12 +94,12 @@ export default {
   },
   computed: {
     shop_type () {
-      return window.sessionStorage.getItem("shop_type");
+      return window.localStorage.getItem("shop_type");
     },
     days () {
-      let day = window.sessionStorage.getItem("days");
+      let day = window.localStorage.getItem("days");
       if (day) {
-        return window.sessionStorage.getItem("days").split(",");
+        return window.localStorage.getItem("days").split(",");
       }
     }
   },

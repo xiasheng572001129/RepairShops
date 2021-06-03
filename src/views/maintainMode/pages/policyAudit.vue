@@ -217,8 +217,8 @@ import { policyAuditList, checkPolicy, updatePloicy, GetCompany, policyType } fr
 export default {
   data () {
     return {
-      sid: window.sessionStorage.getItem('sid'), //维修厂id
-      token: window.sessionStorage.getItem('token'),
+      sid: window.localStorage.getItem('sid'), //维修厂id
+      token: window.localStorage.getItem('token'),
       // 车牌号关键字
       keyword: "",
       // 当前页

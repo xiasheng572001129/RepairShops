@@ -11,33 +11,42 @@
     </div>
     <div class="form">
       <p style="margin:20px 0">
-        <el-radio v-model="radio" label="1">智能连锁店</el-radio>
-        <el-radio v-model="radio" label="2">售后服务站</el-radio>
+        <el-radio v-model="radio"
+                  label="1">智能连锁店</el-radio>
+        <el-radio v-model="radio"
+                  label="2">售后服务站</el-radio>
       </p>
-      <el-form class="inform" v-if="shop_type == 1">
+      <el-form class="inform"
+               v-if="shop_type == 1">
 
         <p>{{coded.Tips}}</p>
-        <table
-          style="height: 150px;width: 150px;"
-          v-loading="loading"
-          element-loading-text="二维码加载中"
-          element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          :hidden="!loading"
-        ></table>
-        <img id="codeimg" style="height: 150px;width: 150px;" :src="coded.QR" alt :hidden="loading">
+        <table style="height: 150px;width: 150px;"
+               v-loading="loading"
+               element-loading-text="二维码加载中"
+               element-loading-spinner="el-icon-loading"
+               element-loading-background="rgba(0, 0, 0, 0.8)"
+               :hidden="!loading"></table>
+        <img id="codeimg"
+             style="height: 150px;width: 150px;"
+             :src="coded.QR"
+             alt
+             :hidden="loading">
         <p>{{coded.money}}</p>
         <p>{{coded.msg}}</p>
       </el-form>
 
-      <el-form class="inform" v-if="shop_type == 2">
+      <el-form class="inform"
+               v-if="shop_type == 2">
         <p>{{coded.Tips}}</p>
       </el-form>
     </div>
     <div class="next-step">
       <div>
         <!--<router-link to="/register/Putforward_information" tag='button' class='next'>下一步</router-link>-->
-        <el-button type="primary" class="next" :disabled="nextVisible" @click="NextStep">下一步</el-button>
+        <el-button type="primary"
+                   class="next"
+                   :disabled="nextVisible"
+                   @click="NextStep">下一步</el-button>
       </div>
     </div>
   </div>
@@ -51,7 +60,7 @@ import {
 } from "@/server/serverData";
 export default {
   name: "RepairInformation",
-  data() {
+  data () {
     return {
       sid: this.$route.query.sid,
       coded: {
@@ -66,16 +75,16 @@ export default {
     };
   },
   computed: {
-    nextVisible() {
+    nextVisible () {
       let state = false;
       return state;
     },
-    shop_type() {
-      return window.sessionStorage.getItem("shop_type");
+    shop_type () {
+      return window.localStorage.getItem("shop_type");
     }
   },
-  watch:{
-    radio() {
+  watch: {
+    radio () {
       this.QR_code()
     }
   },
@@ -90,7 +99,7 @@ export default {
     //             },
     /** 下一步操作 **/
 
-    async NextStep() {
+    async NextStep () {
       // 判断有没有支付完成
       if (this.shop_type == 2) {
         this.$router.push({
@@ -102,7 +111,7 @@ export default {
         });
         return;
       }
-      if(this.shop_type == 1 && this.radio == 2){
+      if (this.shop_type == 1 && this.radio == 2) {
         this.$router.push({
           path: "/register/Putforward_information",
           query: {
@@ -110,7 +119,7 @@ export default {
             shop_type: this.shop_type
           }
         });
-        return ;
+        return;
       }
       let res = await GET_Status(this.$route.query.sid);
       console.log(res);
@@ -120,7 +129,7 @@ export default {
           this.$message({
             message: res.data.detail,
             type: "success",
-            onClose() {
+            onClose () {
               that.$router.push({
                 path: "/register/Putforward_information",
                 query: {
@@ -156,7 +165,7 @@ export default {
       //     this.$message.error(res.data.msg);
       //   }
     },
-    async QR_code() {
+    async QR_code () {
       //获取支付二维码
       let res = await GET_QRCode(this.$route.query.sid, this.shop_type, this.radio);
       console.log(res);
@@ -183,7 +192,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.QR_code();
   }
   //    activated(){

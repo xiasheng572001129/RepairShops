@@ -2,95 +2,138 @@
   <div class="form">
     <p class="col-32373C ft-36">请完善店铺信息</p>
     <div class="form_input">
-      <el-form ref="form" :model="form" label-width="100px">
+      <el-form ref="form"
+               :model="form"
+               label-width="100px">
         <el-form-item label="维修厂名称">
-          <el-input v-model="form.company" placeholder="请输入维修厂名称"></el-input>
+          <el-input v-model="form.company"
+                    placeholder="请输入维修厂名称"></el-input>
         </el-form-item>
         <el-form-item label="负责人">
-          <el-input v-model="form.leader" placeholder="请输入负责人"></el-input>
+          <el-input v-model="form.leader"
+                    placeholder="请输入负责人"></el-input>
         </el-form-item>
-        <el-form-item label="主修" class="Major" prop="major">
+        <el-form-item label="主修"
+                      class="Major"
+                      prop="major">
           <div class="Major_input">
-            <el-input placeholder="请输入" v-model="form.major[0]"></el-input>
-            <el-input placeholder="请输入" v-model="form.major[1]"></el-input>
-            <el-input placeholder="请输入" v-model="form.major[2]"></el-input>
-            <el-input placeholder="请输入" v-model="form.major[3]"></el-input>
-            <el-input placeholder="请输入" v-model="form.major[4]"></el-input>
-            <el-input placeholder="请输入" v-model="form.major[5]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[0]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[1]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[2]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[3]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[4]"></el-input>
+            <el-input placeholder="请输入"
+                      v-model="form.major[5]"></el-input>
           </div>
         </el-form-item>
-        <el-form-item label="所在城市" class="city">
-          <el-select placeholder="请选择省" v-model="form.province" @change="GET_City">
-            <el-option
-              v-for="item of provinceList"
-              :key="item.id"
-              :value="item.name"
-              :label="item.name"
-            ></el-option>
+        <el-form-item label="所在城市"
+                      class="city">
+          <el-select placeholder="请选择省"
+                     v-model="form.province"
+                     @change="GET_City">
+            <el-option v-for="item of provinceList"
+                       :key="item.id"
+                       :value="item.name"
+                       :label="item.name"></el-option>
           </el-select>
-          <el-select placeholder="请选择市" v-model="form.city" @change="GET_area">
-            <el-option
-              v-for="item of cityList"
-              :key="item.id"
-              :value="item.name"
-              :label="item.name"
-            ></el-option>
+          <el-select placeholder="请选择市"
+                     v-model="form.city"
+                     @change="GET_area">
+            <el-option v-for="item of cityList"
+                       :key="item.id"
+                       :value="item.name"
+                       :label="item.name"></el-option>
           </el-select>
-          <el-select placeholder="请选择区/县" v-model="form.county" @change="GET_countyId">
-            <el-option
-              v-for="item of areaList"
-              :key="item.id"
-              :value="item.name"
-              :label="item.name"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="详细地址" prop="address">
-          <el-input placeholder="输入街道名称及门牌号" v-model="form.address"></el-input>
-        </el-form-item>
-        <el-form-item label="服务电话" prop="serphone">
-          <el-input placeholder="请输入服务电话" v-model="form.serphone"></el-input>
-        </el-form-item>
-        <el-form-item label="店铺简介" prop="about">
-          <el-input type="textarea" autosize v-model="form.about" placeholder="请输入内容"></el-input>
-        </el-form-item>
-        <el-form-item label="店铺照片" class="upload cft" prop="upload">
-          <div class="upload_item">
-            <upload :on-success="uploadShopSuccess" :on-remove="uploadShopRemove"></upload>
-          </div>
-          <div class="upload_item">
-            <upload :on-success="uploadShopSuccess" :on-remove="uploadShopRemove"></upload>
-          </div>
-          <div class="upload_item">
-            <upload :on-success="uploadShopSuccess" :on-remove="uploadShopRemove"></upload>
-          </div>
-        </el-form-item>
-        <el-form-item label="营业执照" class="upload cft" prop="upload">
-          <div class="upload_item">
-            <upload :on-success="uploadLicense" :on-remove="uploadLicenseRemove"></upload>
-          </div>
-        </el-form-item>
-        <el-form-item label="提现卡号" prop="account" v-if="shop_type == 1">
-          <el-input placeholder="输入提现卡号" v-model="form.account"></el-input>
-        </el-form-item>
-        <el-form-item label="开户名" prop="account_name" v-if="shop_type == 1">
-          <el-input placeholder="输入开户名" v-model="form.account_name"></el-input>
-        </el-form-item>
-        <el-form-item label="开户行" prop="branch" v-if="shop_type == 1">
-          <el-select v-model="form.bank" placeholder="请选择开户行" style="width: 100%;">
-            <el-option
-              v-for="item of BankList"
-              :key="item.id"
-              :value="item.code"
-              :label="item.name"
-            ></el-option>
+          <el-select placeholder="请选择区/县"
+                     v-model="form.county"
+                     @change="GET_countyId">
+            <el-option v-for="item of areaList"
+                       :key="item.id"
+                       :value="item.name"
+                       :label="item.name"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="所属分行" prop="branch" v-if="shop_type == 1">
-          <el-input placeholder="输入所属分行（例：石家庄支行）" v-model="form.branch"></el-input>
+        <el-form-item label="详细地址"
+                      prop="address">
+          <el-input placeholder="输入街道名称及门牌号"
+                    v-model="form.address"></el-input>
+        </el-form-item>
+        <el-form-item label="服务电话"
+                      prop="serphone">
+          <el-input placeholder="请输入服务电话"
+                    v-model="form.serphone"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺简介"
+                      prop="about">
+          <el-input type="textarea"
+                    autosize
+                    v-model="form.about"
+                    placeholder="请输入内容"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺照片"
+                      class="upload cft"
+                      prop="upload">
+          <div class="upload_item">
+            <upload :on-success="uploadShopSuccess"
+                    :on-remove="uploadShopRemove"></upload>
+          </div>
+          <div class="upload_item">
+            <upload :on-success="uploadShopSuccess"
+                    :on-remove="uploadShopRemove"></upload>
+          </div>
+          <div class="upload_item">
+            <upload :on-success="uploadShopSuccess"
+                    :on-remove="uploadShopRemove"></upload>
+          </div>
+        </el-form-item>
+        <el-form-item label="营业执照"
+                      class="upload cft"
+                      prop="upload">
+          <div class="upload_item">
+            <upload :on-success="uploadLicense"
+                    :on-remove="uploadLicenseRemove"></upload>
+          </div>
+        </el-form-item>
+        <el-form-item label="提现卡号"
+                      prop="account"
+                      v-if="shop_type == 1">
+          <el-input placeholder="输入提现卡号"
+                    v-model="form.account"></el-input>
+        </el-form-item>
+        <el-form-item label="开户名"
+                      prop="account_name"
+                      v-if="shop_type == 1">
+          <el-input placeholder="输入开户名"
+                    v-model="form.account_name"></el-input>
+        </el-form-item>
+        <el-form-item label="开户行"
+                      prop="branch"
+                      v-if="shop_type == 1">
+          <el-select v-model="form.bank"
+                     placeholder="请选择开户行"
+                     style="width: 100%;">
+            <el-option v-for="item of BankList"
+                       :key="item.id"
+                       :value="item.code"
+                       :label="item.name"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属分行"
+                      prop="branch"
+                      v-if="shop_type == 1">
+          <el-input placeholder="输入所属分行（例：石家庄支行）"
+                    v-model="form.branch"></el-input>
         </el-form-item>
         <el-form-item label>
-          <el-button type="primary" :disabled="disabled" @click="Submit('form')" class="Submit">提交</el-button>
+          <el-button type="primary"
+                     :disabled="disabled"
+                     @click="Submit('form')"
+                     class="Submit">提交</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -107,7 +150,7 @@ import {
 } from "@/server/serverData";
 import upload from "@/views/common/upload";
 export default {
-  data() {
+  data () {
     return {
       BankList: [], //银行列表
       provinceList: [], //省份数据
@@ -133,18 +176,18 @@ export default {
         branch: ""
       },
       disabled: false,
-      shop_type: window.sessionStorage.getItem("shop_type")
+      shop_type: window.localStorage.getItem("shop_type")
     };
   },
   components: {
     upload
   },
   methods: {
-    async getBank() {
+    async getBank () {
       let res = await getBankCode();
       this.BankList = res;
     },
-    async init() {
+    async init () {
       try {
         /** 获取用户默认信息 **/
         let res = await getShopInfo();
@@ -166,7 +209,7 @@ export default {
         console.log(err);
       }
     },
-    async GET_City(item) {
+    async GET_City (item) {
       //获取所有市
       let id = this.finID(this.provinceList, item);
       this.form.city = "";
@@ -176,7 +219,7 @@ export default {
         this.cityList = res.data;
       }
     },
-    async GET_area(item) {
+    async GET_area (item) {
       //获取区或者县
       let id = this.finID(this.cityList, item);
       this.form.county = "";
@@ -186,18 +229,18 @@ export default {
         this.areaList = res.data;
       }
     },
-    GET_countyId(item) {
+    GET_countyId (item) {
       //获取县或区id
       this.form.county_id = this.finID(this.areaList, item);
     },
-    uploadShopSuccess(
+    uploadShopSuccess (
       res,
       file //上传成功的店铺照片
     ) {
       console.log(res);
       this.form.photo.push(res);
     },
-    uploadShopRemove(
+    uploadShopRemove (
       file //删除成功的店铺照片
     ) {
       let findIndex = this.form.photo.findIndex(v => {
@@ -205,16 +248,16 @@ export default {
       });
       this.form.photo.splice(findIndex, 1);
     },
-    uploadLicense(res) {
+    uploadLicense (res) {
       //上传成功的营业执照
 
       this.form.license = res;
     },
-    uploadLicenseRemove(file) {
+    uploadLicenseRemove (file) {
       //删除营业执照
       this.form.license = "";
     },
-    async Submit(
+    async Submit (
       form //提交
     ) {
       this.disabled = true;
@@ -225,9 +268,9 @@ export default {
         this.$message({
           message: res.data.msg,
           type: "success",
-          onClose() {
+          onClose () {
             /** 拿去缓存中的数据,进行判断选择了那个店铺,根据选择的店铺跳转到指定的页面**/
-            let shop_type = window.sessionStorage.getItem("shop_type");
+            let shop_type = window.localStorage.getItem("shop_type");
 
             switch (shop_type) {
               /** 1.邦保养加盟,完善信息后,跳转到审核页面,查看注册状态 **/
@@ -254,7 +297,7 @@ export default {
       }
       console.log(res);
     },
-    finID(arr, item) {
+    finID (arr, item) {
       //查询id
       let findIndex = arr.findIndex(v => {
         return v.name == item;
@@ -262,7 +305,7 @@ export default {
       return arr[findIndex].id;
     }
   },
-  mounted() {
+  mounted () {
     this.init();
     this.getBank();
   }

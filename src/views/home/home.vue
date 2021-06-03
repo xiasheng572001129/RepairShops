@@ -133,7 +133,7 @@ export default {
       actShow: true,
       newsDate: [],
       state: 0,
-      materiel_ALERT: window.sessionStorage.getItem("materielState"),
+      materiel_ALERT: window.localStorage.getItem("materielState"),
       loading: true,
       dialogVisible: false,
       text1: {
@@ -142,7 +142,7 @@ export default {
       },
       radio: '1',
       upgrade: {},
-      activiyLog: JSON.parse(window.sessionStorage.getItem('activiyLog')),   //活动文字滚动条
+      activiyLog: JSON.parse(window.localStorage.getItem('activiyLog')),   //活动文字滚动条
     };
   },
   components: {
@@ -151,10 +151,10 @@ export default {
   },
   computed: {
     activity () {
-      return JSON.parse(window.sessionStorage.getItem("action")) || {};
+      return JSON.parse(window.localStorage.getItem("action")) || {};
     },
     shop_type () {
-      return window.sessionStorage.getItem("shop_type") == 1 ? true : false;
+      return window.localStorage.getItem("shop_type") == 1 ? true : false;
     },
     text_show () {
       return this.text1.title == "" && this.text1.content == "" ? false : true;
@@ -237,11 +237,11 @@ export default {
               .then(() => {
                 /** 没有物料跳转邦保养管理添加物料 **/
                 that.$router.push("/maintainMode/materielM");
-                window.sessionStorage.setItem("materielState", true);
+                window.localStorage.setItem("materielState", true);
               })
               .catch(() => {
                 console.log(123);
-                window.sessionStorage.setItem("materielState", true);
+                window.localStorage.setItem("materielState", true);
               });
           }
         }
@@ -256,12 +256,12 @@ export default {
     },
     async homepayStatus () {
       return payStatus({
-        sid: window.sessionStorage.getItem("parmas_sid")
+        sid: window.localStorage.getItem("parmas_sid")
       })
     },
     Upgrade () {
       return UpgradeQrpay({
-        sid: window.sessionStorage.getItem("parmas_sid"),
+        sid: window.localStorage.getItem("parmas_sid"),
         shop_type: 1,
         type: this.radio
       }).then(res => {
@@ -277,7 +277,7 @@ export default {
           if (res.data.status == 1) {
             // this.$message.success(res.data.detail)
             this.$alert(res.data.detail).then(_ => {
-              window.sessionStorage.clear();
+              window.localStorage.clear();
               this.$notify.closeAll()
               this.$router.push("/login");
             }).catch(e => console.log(e))
@@ -336,7 +336,7 @@ export default {
     if (this.$route.params.shop_type == 2) {
       // 当店铺类别是2 ubi店铺时
       // console.log("homegettexthomegettext");
-      window.sessionStorage.setItem("parmas_sid", this.$route.params.sid);
+      window.localStorage.setItem("parmas_sid", this.$route.params.sid);
       this.$notify({
         title: '提示',
         message: '点我一键升级为邦保养智能连锁店面',
@@ -372,7 +372,7 @@ export default {
   //         onClick:function () {
   //
   //           UpgradeQrpay({
-  //             sid:window.sessionStorage.getItem("parmas_sid"),
+  //             sid:window.localStorage.getItem("parmas_sid"),
   //             shop_type:1
   //           }).then(res=>{
   //             this.$alert('<div style="text-align:center"><div><img src="'+res.data.src+'" /></div><span>'+res.data.detail+'</span></div>', res.data.bottom,{

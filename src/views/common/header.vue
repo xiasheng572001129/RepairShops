@@ -93,15 +93,15 @@ export default {
   },
   computed: {
     username () {
-      return window.sessionStorage.getItem("username");
+      return window.localStorage.getItem("username");
     },
     shop_type () {
-      return window.sessionStorage.getItem("shop_type");
+      return window.localStorage.getItem("shop_type");
     },
     days () {
-      let day = window.sessionStorage.getItem("days");
+      let day = window.localStorage.getItem("days");
       if (day) {
-        return window.sessionStorage.getItem("days").split(",");
+        return window.localStorage.getItem("days").split(",");
       }
     },
     status () {
@@ -130,7 +130,7 @@ export default {
             message: "退出成功",
             duration: 2000
           });
-          window.sessionStorage.clear();
+          window.localStorage.clear();
           this.$notify.closeAll();
           this.$router.push("/login");
         })

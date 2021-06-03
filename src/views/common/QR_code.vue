@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     shop_type () {
-      return window.sessionStorage.getItem("shop_type");
+      return window.localStorage.getItem("shop_type");
     },
     status () {
       return this.$store.state.shop_status;

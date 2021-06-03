@@ -21,16 +21,16 @@ import {
   getAuthStatus
 } from "@/server/serverData";
 export default {
-  data() {
+  data () {
     return {
       QR_codeData: {},
-      shop_type: window.sessionStorage.getItem(
+      shop_type: window.localStorage.getItem(
         "shop_type"
       ) /** 获取用户,选择的那个店铺 1-邦保养加盟 2-车管家合作小程序 **/
     };
   },
   methods: {
-    async QR_code() {
+    async QR_code () {
       //获取二维码
       try {
         /** 二维码的两种状态如果用户选择了邦保养加盟则调用支付系统使用费二维码接口,否则调用小程序二维码接口 **/
@@ -52,7 +52,7 @@ export default {
         console.log(err);
       }
     },
-    async getStatus() {
+    async getStatus () {
       //查看用户支付信息,支付完成后 完善信息
 
       try {
@@ -69,9 +69,9 @@ export default {
                 this.$message({
                   message: res.data.detail,
                   type: "success",
-                  onClose() {
+                  onClose () {
                     console.log(456)
-                    window.sessionStorage.setItem("token", res.data.token);
+                    window.localStorage.setItem("token", res.data.token);
                     that.$router.push({ path: "/perfect_information" });
                   }
                 });
@@ -84,7 +84,7 @@ export default {
               this.$message({
                 message: res.data.msg,
                 type: "success",
-                onClose() {
+                onClose () {
                   that.$router.push({ path: "/home" });
                 }
               });
@@ -98,7 +98,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.QR_code();
   }
 };

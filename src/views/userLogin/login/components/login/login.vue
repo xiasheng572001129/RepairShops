@@ -22,7 +22,7 @@
                        placeholder="输入密码"
                        v-model="form.passwd">
               </div>
-              
+
               <div class="Code">
                 <input type="text"
                        placeholder="输入验证码"
@@ -135,7 +135,7 @@ export default {
               type: "warning"
             })
               .then(() => {
-                window.sessionStorage.setItem("shop_type", 1);
+                window.localStorage.setItem("shop_type", 1);
                 that.$router.push({
                   path: "/register/Repair_information",
                   query: { sid: res.data.data.sid }
@@ -146,9 +146,9 @@ export default {
           /** 1-未完善信息，跳转到完善信息页面，让用户完善信息 **/
           case 1:
             console.log(1)
-            window.sessionStorage.setItem("token", res.data.data.token);
-            window.sessionStorage.setItem("username", res.data.data.shop_name);
-            window.sessionStorage.setItem("shop_type", res.data.data.shop_type);
+            window.localStorage.setItem("token", res.data.data.token);
+            window.localStorage.setItem("username", res.data.data.shop_name);
+            window.localStorage.setItem("shop_type", res.data.data.shop_type);
             this.$confirm(`${res.data.msg}是否前往完善信息页?`, "提示", {
               confirmButtonText: "确定",
               cancelButtonText: "取消",
@@ -167,7 +167,7 @@ export default {
           case 2:
             // console.log(2)
             if (res.data.data.days.length !== 0) {
-              window.sessionStorage.setItem("days", res.data.data.days);
+              window.localStorage.setItem("days", res.data.data.days);
             }
             // 如果是 邦保养维修厂 是需要运营商审核的，如果是待审核状态的话，惠有popup字段，里面是它的运营商的信息
             let popup = res.data.data.popup;
@@ -190,14 +190,14 @@ export default {
                   // console.log(res.data.data.action.msg)
                   let action = JSON.stringify(res.data.data.action.msg);
                   // console.log(action)
-                  window.sessionStorage.setItem("action", action);
-                  window.sessionStorage.setItem("token", res.data.data.token);
-                  window.sessionStorage.setItem("sid", res.data.data.sid); //维修厂id
-                  window.sessionStorage.setItem(
+                  window.localStorage.setItem("action", action);
+                  window.localStorage.setItem("token", res.data.data.token);
+                  window.localStorage.setItem("sid", res.data.data.sid); //维修厂id
+                  window.localStorage.setItem(
                     "username",
                     res.data.data.shop_name
                   );
-                  window.sessionStorage.setItem(
+                  window.localStorage.setItem(
                     "shop_type",
                     res.data.data.shop_type
                   );
@@ -220,16 +220,16 @@ export default {
               onClose () {
                 let action = JSON.stringify(res.data.data.action.msg);
                 let activiyLog = JSON.stringify(res.data.data.activiyLog, 'activiyLog')  //活动文字滚动条
-                window.sessionStorage.setItem("action", action);
-                window.sessionStorage.setItem("token", res.data.data.token);
-                window.sessionStorage.setItem("sid", res.data.data.sid); //维修厂id
+                window.localStorage.setItem("action", action);
+                window.localStorage.setItem("token", res.data.data.token);
+                window.localStorage.setItem("sid", res.data.data.sid); //维修厂id
 
-                window.sessionStorage.setItem("activiyLog", activiyLog); //活动文字滚动条
-                window.sessionStorage.setItem(
+                window.localStorage.setItem("activiyLog", activiyLog); //活动文字滚动条
+                window.localStorage.setItem(
                   "username",
                   res.data.data.shop_name
                 );
-                window.sessionStorage.setItem(
+                window.localStorage.setItem(
                   "shop_type",
                   res.data.data.shop_type
                 );
@@ -248,8 +248,8 @@ export default {
           /** 3-已取消合作且做完了剩余的邦保养服务，跳转到提现页面 **/
           case 3:
             console.log(3)
-            window.sessionStorage.setItem("token", res.data.data.token);
-            window.sessionStorage.setItem("username", res.data.data.shop_name);
+            window.localStorage.setItem("token", res.data.data.token);
+            window.localStorage.setItem("username", res.data.data.shop_name);
             that.$message({
               message: res.data.msg,
               type: "warning",
@@ -281,7 +281,7 @@ export default {
 
           case 7:
             console.log(7)
-            window.sessionStorage.setItem("shop_type", 2);
+            window.localStorage.setItem("shop_type", 2);
             this.$confirm(`${res.data.msg}<br/>是否前往支付页面?`, "提示", {
               dangerouslyUseHTMLString: true,
               confirmButtonText: "确定",
@@ -300,9 +300,9 @@ export default {
 
           case 8:
             console.log(8)
-            window.sessionStorage.setItem("shop_type", 2);
-            window.sessionStorage.setItem("token", res.data.data.token);
-            window.sessionStorage.setItem("username", res.data.data.shop_name);
+            window.localStorage.setItem("shop_type", 2);
+            window.localStorage.setItem("token", res.data.data.token);
+            window.localStorage.setItem("username", res.data.data.shop_name);
             this.$confirm(`${res.data.msg}，是否前往完善信息页?`, "提示", {
               confirmButtonText: "确定",
               cancelButtonText: "取消",

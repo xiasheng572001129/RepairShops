@@ -3,55 +3,69 @@
     <div class="step">
       <ul>
         <li>1.登录信息</li>
-        <li class="col-919" v-if="form.shop_type == 1">2.支付费用</li>
-        <li class="col-919" v-if="form.shop_type == 1">3.基本信息</li>
-        <li class="col-919" v-if="form.shop_type == 2">2.基本信息</li>
-        <li class="col-919" v-if="form.shop_type == 2">3.完成</li>
+        <li class="col-919"
+            v-if="form.shop_type == 1">2.支付费用</li>
+        <li class="col-919"
+            v-if="form.shop_type == 1">3.基本信息</li>
+        <li class="col-919"
+            v-if="form.shop_type == 2">2.基本信息</li>
+        <li class="col-919"
+            v-if="form.shop_type == 2">3.完成</li>
       </ul>
     </div>
     <div class="form">
       <div>
-        <input type="text" placeholder="请输入账号" v-model="form.usname">
+        <input type="text"
+               placeholder="请输入账号"
+               v-model="form.usname">
       </div>
       <div>
-        <input type="password" placeholder="请输入密码" v-model="form.passwd">
+        <input type="password"
+               placeholder="请输入密码"
+               v-model="form.passwd">
       </div>
       <div>
-        <input type="password" placeholder="确认密码" v-model="form.spasswd">
+        <input type="password"
+               placeholder="确认密码"
+               v-model="form.spasswd">
       </div>
       <div>
-        <input type="tel" placeholder="输入手机号码" v-model="form.phone">
+        <input type="tel"
+               placeholder="输入手机号码"
+               v-model="form.phone">
       </div>
       <div>
-        <input type="text" placeholder="输入手机验证码" v-model="form.code">
-        <el-button class="Verification" :disabled="isdisabled" @click="getCode">{{btnVal}}</el-button>
+        <input type="text"
+               placeholder="输入手机验证码"
+               v-model="form.code">
+        <el-button class="Verification"
+                   :disabled="isdisabled"
+                   @click="getCode">{{btnVal}}</el-button>
       </div>
-      <div v-if="form.shop_type == 1" style="position: relative;border-bottom: 0;">
+      <div v-if="form.shop_type == 1"
+           style="position: relative;border-bottom: 0;">
         <div class="sixbox">
-          <span
-            style=" color:#606266;display: block;height:38px;line-height: 38px;z-index: 10;"
-          >注册码：</span>
-          <input
-            class="sixinput"
-            type="text"
-            disabled
-            v-for="(item, index) in Inputlength"
-            :key="index"
-            :value="share_promo_code[item-1]"
-          >
+          <span style=" color:#606266;display: block;height:38px;line-height: 38px;z-index: 10;">注册码：</span>
+          <input class="sixinput"
+                 type="text"
+                 disabled
+                 v-for="(item, index) in Inputlength"
+                 :key="index"
+                 :value="share_promo_code[item-1]">
         </div>
-        <input
-          type="text"
-          :maxlength="Inputlength"
-          placeholder="请输入"
-          v-model="share_promo_code"
-          style="position: absolute;width: 100%;top: 0; opacity: 0;"
-        >
+        <input type="text"
+               :maxlength="Inputlength"
+               placeholder="请输入"
+               v-model="share_promo_code"
+               style="position: absolute;width: 100%;top: 0; opacity: 0;">
       </div>
     </div>
     <div class="next-step">
       <div>
-        <el-button type="primary" class="next" :disabled="nextVisible" @click="NextStep">下一步</el-button>
+        <el-button type="primary"
+                   class="next"
+                   :disabled="nextVisible"
+                   @click="NextStep">下一步</el-button>
         <!--<router-link to="/register/Repair_information" tag='el-button' :class='' type="primary" :disabled='next'>下一步</router-link>-->
       </div>
     </div>
@@ -66,7 +80,7 @@ import {
 } from "@/server/serverData";
 export default {
   name: "loginInformation",
-  data() {
+  data () {
     return {
       Inputlength: 6,
       share_promo_code: "",
@@ -80,12 +94,12 @@ export default {
         spasswd: "",
         phone: "",
         code: "",
-        shop_type: window.sessionStorage.getItem("shop_type")
+        shop_type: window.localStorage.getItem("shop_type")
       }
     };
   },
   computed: {
-    nextVisible() {
+    nextVisible () {
       let state = true,
         usname = this.form.usname,
         passwd = this.form.passwd,
@@ -99,7 +113,7 @@ export default {
     }
   },
   watch: {
-    share_promo_code() {
+    share_promo_code () {
       if (this.share_promo_code.length == 6) {
         this.getcodeinfo();
       }
@@ -114,7 +128,7 @@ export default {
     //                      console.log(err)
     //                  }
     //            },
-    async getcodeinfo() {
+    async getcodeinfo () {
       let res = await shareCode(this.share_promo_code);
       if (res.data.code == 1) {
         this.$confirm(
@@ -144,7 +158,7 @@ export default {
         // this.share_promo_code = "";
       }
     },
-    getCode() {
+    getCode () {
       if (!this.form.phone) this.$message.error("请输入手机号");
       else if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.form.phone))
         this.$message.error("手机号格式不对");
@@ -152,7 +166,7 @@ export default {
         //手机号有并且正确
         var that = this;
         that.isdisabled = true;
-        var interval = window.setInterval(function() {
+        var interval = window.setInterval(function () {
           //按钮的值
           that.btnVal = "(" + that.time + ")秒后";
           --that.time;
@@ -166,7 +180,7 @@ export default {
         this.VerificationCode();
       }
     },
-    async VerificationCode() {
+    async VerificationCode () {
       //获取验证码
       let res = await getVerificationCode(this.form.phone);
       if (res.data.code == 1) {
@@ -175,7 +189,7 @@ export default {
         this.$message.error(res.data.msg);
       }
     },
-    async NextStep() {
+    async NextStep () {
       //注册第一步
       let data = {
         share_promo_code: this.share_promo_code,
@@ -190,7 +204,7 @@ export default {
           message: res.data.msg,
           type: "success",
           duration: "1000",
-          onClose() {
+          onClose () {
             if (that.form.shop_type == 1)
               that.$router.push({
                 path: "/register/Repair_information",

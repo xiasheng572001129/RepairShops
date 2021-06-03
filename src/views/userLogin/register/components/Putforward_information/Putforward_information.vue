@@ -16,13 +16,19 @@
     </div>
     <div class="form">
       <div>
-        <input type="text" v-model="form.company" placeholder="请输入公司名称">
+        <input type="text"
+               v-model="form.company"
+               placeholder="请输入公司名称">
       </div>
       <div>
-        <input type="text" v-model="form.short_name" placeholder="请输入公司简称">
+        <input type="text"
+               v-model="form.short_name"
+               placeholder="请输入公司简称">
       </div>
       <div>
-        <input type="text" v-model="form.leader" placeholder="负责人">
+        <input type="text"
+               v-model="form.leader"
+               placeholder="负责人">
       </div>
 
       <!-- <div v-if="shop_type == 1">
@@ -42,7 +48,10 @@
     </div>
     <div class="next-step">
       <div>
-        <el-button type="primary" class="next" :disabled="nextVisible" @click="register">提交</el-button>
+        <el-button type="primary"
+                   class="next"
+                   :disabled="nextVisible"
+                   @click="register">提交</el-button>
       </div>
     </div>
   </div>
@@ -56,7 +65,7 @@ import {
 } from "@/server/serverData";
 export default {
   name: "PutforwardInformation",
-  data() {
+  data () {
     return {
       BankList: [], //银行列表
       form: {
@@ -72,26 +81,26 @@ export default {
     };
   },
   computed: {
-    nextVisible() {
+    nextVisible () {
       let state = true,
         f = this.form,
         st = this.shop_type,
         gs = f.company && f.short_name && f.leader,
         yh = f.account_name && f.account && f.bank && f.branch;
-      if (st == 1 && gs ) {
+      if (st == 1 && gs) {
         state = false;
       } else if (st == 2 && gs) {
         state = false;
       }
       return state;
     },
-    shop_type() {
-      return window.sessionStorage.getItem("shop_type");
+    shop_type () {
+      return window.localStorage.getItem("shop_type");
     }
   },
   methods: {
     /** 返回并清楚原来注册填写的信息 **/
-    async clear() {
+    async clear () {
       try {
         let res = await deleteInfo();
         this.$router.push({
@@ -103,25 +112,25 @@ export default {
       }
     },
     /** 获取银行列表 **/
-    async getBank() {
+    async getBank () {
       let res = await getBankCode();
       this.BankList = res;
     },
     /** 注册**/
-    async register() {
+    async register () {
       /** 拿去缓存中的数据,进行判断选择了那个店铺 1-邦保养加盟pc注册 2-车管家合作小程序注册**/
       let res = await regThird({ ...this.form, shop_type: this.shop_type });
       if (res.data.code == 1) {
         var that = this;
         let getToken = await createToken({ sid: this.$route.query.sid });
         if (getToken.code == 1) {
-          window.sessionStorage.setItem("token", getToken.data);
+          window.localStorage.setItem("token", getToken.data);
         }
         this.$message({
           message: res.data.msg,
           type: "success",
           duration: "1000",
-          onClose() {
+          onClose () {
             that.$store.commit("CHANGE_SID", that.form.sid);
             switch (that.shop_type) {
               /** 1是邦保养加盟,跳转支付系统使用费**/
@@ -151,7 +160,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getBank();
   }
 };

@@ -210,7 +210,7 @@ export default {
       county: null,
       BankList: null,
       token: {
-        token: window.sessionStorage.getItem('token')
+        token: window.localStorage.getItem('token')
       },
       shopInfoList: '',
       photoList: [],
@@ -303,9 +303,11 @@ export default {
       console.log(res.data.code)
       if (res.data.code == 1) {
         let that = this
-        this.$message({          message: res.data.msg, type: 'success', onClose () {
+        this.$message({
+          message: res.data.msg, type: 'success', onClose () {
             that.$router.push('/account_information')
-          }        })
+          }
+        })
       } else {
         this.$message.error(res.data.msg)
       }

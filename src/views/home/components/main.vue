@@ -86,7 +86,7 @@ export default {
       })
     },
     addifsigning () {
-      window.sessionStorage.setItem("ifsigning", 1);
+      window.localStorage.setItem("ifsigning", 1);
     },
     async init () {
       try {

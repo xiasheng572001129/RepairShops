@@ -370,7 +370,7 @@ export default {
   data () {
     return {
       // 京A12345
-      token: window.sessionStorage.getItem('token'),
+      token: window.localStorage.getItem('token'),
       form: {
         plate: "",
         code: "",
@@ -465,7 +465,7 @@ export default {
     mileageRule () { },
     // 根据车牌号查询车主信息
     async search () {
-      let shop_type = window.sessionStorage.getItem('shop_type')
+      let shop_type = window.localStorage.getItem('shop_type')
       if (shop_type == 2) {
         this.$confirm('暂无权限', '提示', {
           confirmButtonText: "确定",

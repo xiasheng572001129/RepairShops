@@ -121,7 +121,7 @@ export default {
   // 		},
   watch: {
     ifsigning () {
-      window.sessionStorage.setItem("ifsigning", this.$route.query.ifsigning);
+      window.localStorage.setItem("ifsigning", this.$route.query.ifsigning);
     }
   },
   created () {
