@@ -22,6 +22,7 @@
                        placeholder="输入密码"
                        v-model="form.passwd">
               </div>
+              
               <div class="Code">
                 <input type="text"
                        placeholder="输入验证码"

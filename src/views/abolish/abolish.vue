@@ -1,7 +1,10 @@
 <template>
   <div class="abolish">
-    <Head :isShow="true" class="header"></Head>
-    <currentPage class="currentPage" :id="140"></currentPage>
+
+    <Head :isShow="true"
+          class="header"></Head>
+    <currentPage class="currentPage"
+                 :id="140"></currentPage>
     <abolishContent></abolishContent>
   </div>
 </template>
